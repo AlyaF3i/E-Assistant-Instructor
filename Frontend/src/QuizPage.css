@@ -1,0 +1,108 @@
+
+.quiz-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.quiz-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.quiz-question {
+    background-color: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 20px;
+}
+
+.question-text {
+    font-size: 18px;
+    margin-bottom: 10px;
+    font-weight: 500;
+    color: #333;
+}
+
+.options-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.option-item {
+    margin-bottom: 10px;
+    padding: 10px; /* Add some padding for better spacing */
+    border-radius: 8px; /* Rounded corners for each option */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+    cursor: pointer; /* Change cursor to pointer for clickable items */
+    position: relative; /* Needed for the ::after pseudo-element */
+}
+.option-item::after {
+    content: '';
+    display: block;
+    height: 1px; /* Height of the divider */
+    background-color: #ddd; /* Color of the divider */
+    position: absolute; /* Position it absolutely */
+    bottom: 0; /* Align it to the bottom of the item */
+    left: 10px; /* Adjust left position to match padding */
+    right: 10px; /* Adjust right position to match padding */
+    z-index: 1; /* Ensure it is behind the text */
+}
+
+/* Remove the divider for the last item */
+.option-item:last-child::after {
+    content: none; /* No divider for the last item */
+}
+.option-input {
+    display: none; /* Hide the radio input */
+}
+
+.option-label {
+    font-size: 16px;
+    font-weight: 400;
+    color: #333;
+}
+
+/* Style for selected option */
+.option-item.selected {
+    background-color: #ff8a00; /* Highlight color for selected option */
+    color: white; /* Change text color for better contrast */
+    font-weight: bold; /* Make the text bold */
+}
+
+.option-item:hover {
+    background-color: #f0e6d2; /* Light background on hover */
+}
+
+.loading,
+.error {
+    font-size: 18px;
+    color: #ff8a00; /* You can adjust this color as needed */
+    text-align: center;
+    margin-top: 20px;
+}
+.quiz-submit-button {
+    padding: 15px;
+    background-color: #36A2EB;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .quiz-submit-button:hover {
+    transform: scale(1.05);
+    background-color: #257AC9;
+  }

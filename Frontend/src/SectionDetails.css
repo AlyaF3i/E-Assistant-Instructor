@@ -1,0 +1,143 @@
+/* General Styling */
+.section-container {
+  width: 100%;
+  max-width: 850px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.section-title {
+  font-size: 26px;
+  color: #ff7a00;
+  margin-bottom: 15px;
+  font-weight: bold;
+  text-align: center;
+}
+.section-card {
+  padding: 25px;
+  text-align: start;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;  /* Smooth transition for hover effects */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.SectionDetails-input-wrapper{
+  display: flex;
+  flex-direction: column;
+  text-align: start;
+}
+.section-card:hover {
+  transform: translateY(-7px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);}
+
+
+.section-card p {
+  font-size: 18px;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+.section-card p strong {
+  color: #444;
+}
+.content-type-selector {
+  margin-top: 15px;
+}
+
+.content-type-selector label {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.content-type-selector select {
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  transition: border 0.3s ease;
+}
+
+.content-type-selector select:focus {
+  border-color: #36A2EB;  /* Change border color on focus */
+}
+.generate-content-btn {
+  margin-top: 15px;
+  padding: 10px 20px;
+  background-color: #36A2EB;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.generate-content-btn:hover {
+  background-color: #257AC9;
+  transform: translateY(-3px);  /* Adds a slight lift on hover */
+}
+
+.generate-content-btn:active {
+  transform: translateY(0);  /* Resets lift effect on click */
+}
+.section-card-counter {
+  padding: 25px;
+  margin-top: 20px;
+  text-align: center;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;  /* Smooth transition for hover effects */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.section-card-counter:hover {
+  transform: translateY(-7px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);}
+.count-display {
+  font-size: 2.5em;
+  color: #82ca9d;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .section-container {
+    padding: 15px;
+  }
+
+  .section-title {
+    font-size: 24px;
+    margin-bottom: 15px;
+  }
+
+  .section-card {
+    padding: 20px;
+  }
+
+  .section-card p {
+    font-size: 16px;
+    line-height: 1.4;
+  }
+}
+
+@media (max-width: 480px) {
+  .section-container {
+    padding: 10px;
+    width: 95%;  }
+
+  .section-title {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+
+  .section-card {
+    padding: 15px;
+  }
+
+  .section-card p {
+    font-size: 14px;
+    line-height: 1.3;
+  }
+}

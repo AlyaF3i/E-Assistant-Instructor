@@ -1,0 +1,113 @@
+/* Background */
+.myclasses-container {
+  padding: 20px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Title */
+.myclasses-title {
+  font-size: 32px;
+  font-weight: bold;
+  color: #ff8a00; /* Matches the color scheme */
+  margin-bottom: 20px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); /* Slight shadow for emphasis */
+}
+
+/* Classes List */
+.myclasses-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+/* Class Card */
+.myclass-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 320px;
+  cursor: pointer;
+  max-width: 100%;
+}
+
+.myclass-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Title for Each Card */
+.myclass-card-title {
+  font-size: 24px;
+  color: #ff8a00; /* Matches button color from createclassroom */
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+/* Class Details */
+.myclass-details {
+  color: #4d4d4d;
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+
+.myclass-details p {
+  margin: 5px 0;
+}
+
+/* Students List */
+.myclass-students {
+  background-color: #f4f6f9;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.myclass-students ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.myclass-students li {
+  padding: 5px 0;
+  font-size: 14px;
+  color: #4d4d4d;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  .myclass-card {
+    width: 100%;
+  }
+
+  .myclasses-title {
+    font-size: 28px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .myclass-card {
+    padding: 15px;
+  }
+
+  .myclass-card-title {
+    font-size: 20px;
+  }
+
+  .myclass-details p {
+    font-size: 14px;
+  }
+
+  .myclass-students li {
+    font-size: 13px;
+  }
+
+  .myclasses-title {
+    font-size: 24px;
+  }
+}

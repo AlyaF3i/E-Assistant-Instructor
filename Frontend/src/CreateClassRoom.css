@@ -1,0 +1,185 @@
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+/* Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+
+/* Container */
+.createclassroom-container {
+  display: flex;
+  margin-top: 20px;
+  justify-content: center;
+  align-items: center;
+  height: max-content;
+  padding: 5px;
+}
+
+/* Form */
+.createclassroom-form {
+  background-color: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.createclassroom-form:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* Title */
+.createclassroom-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+  text-align: center;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.createclassroom-title::after {
+  content: '';
+  width: 60px;
+  height: 4px;
+  background-color: #ff8a00;
+  display: block;
+  margin: 10px auto 0;
+  border-radius: 2px;
+}
+
+/* Input Wrapper */
+.createclassroom-input-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Label */
+.createclassroom-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+/* Input and Select */
+.createclassroom-input,
+.createclassroom-select {
+  width: 100%;
+  max-width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 16px;
+  outline: none;
+  transition: all 0.3s ease;
+  background-color: #f9f9f9;
+}
+
+.createclassroom-input:focus,
+.createclassroom-select:focus {
+  border-color: #ff8a00;
+  background-color: #fff;
+}
+
+/* Button */
+.createclassroom-button {
+  padding: 15px;
+  background-color: #36A2EB;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.createclassroom-button:hover {
+  background-color: #257AC9;
+}
+/* Students Section */
+.createclassroom-students-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #ff8a00;
+  cursor: pointer;
+  text-align: center;
+}
+
+.createclassroom-student {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.createclassroom-add-student-button{
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.createclassroom-remove-student-button {
+  background-color: #cf0d37;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.createclassroom-add-student-button:hover{
+  background-color: #218838;
+
+}
+.createclassroom-remove-student-button:hover {
+  background-color: #a80b2d;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .createclassroom-form {
+    padding: 30px;
+  }
+
+  .createclassroom-title {
+    font-size: 22px;
+  }
+
+  .createclassroom-button {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .createclassroom-form {
+    padding: 20px;
+  }
+
+  .createclassroom-title {
+    font-size: 20px;
+  }
+
+  .createclassroom-button {
+    font-size: 13px;
+    padding: 12px;
+  }
+}
