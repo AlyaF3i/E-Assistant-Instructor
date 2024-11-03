@@ -32,7 +32,7 @@ const LoginPage = () => {
 
             if (response.ok) {
                 const data = await response.json();
-                localStorage.setItem('token', data.token);  // Store the token
+                localStorage.setItem('authToken', data.token);  // Store the token
                 localStorage.setItem('username', username); // Store the username
                 navigate('/my-classes'); // Redirect to the classes page after successful login
             } else {

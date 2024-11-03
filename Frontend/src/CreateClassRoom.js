@@ -13,7 +13,6 @@ const CreateClassroom = () => {
     Disability: "",
     Subject: "",
     NumOfSections: "",
-    Remark: "",
     StudentEmail: [],
   });
   const apiUrl = process.env.REACT_APP_API_URL;
@@ -101,34 +100,53 @@ const updatedFormData = {
         </div>
 
         <div className="createclassroom-input-wrapper">
-          <label className="createclassroom-label" htmlFor="Subject">
-            {t("subject")}
-          </label>
-          <input
-            type="text"
-            id="Subject"
-            name="Subject"
-            className="createclassroom-input"
-            value={formData.Subject}
-            onChange={handleChange}
-            required
-          />
-        </div>
+  <label className="createclassroom-label" htmlFor="Subject">
+    {t("subject")}
+  </label>
+  <select
+    id="Subject"
+    name="Subject"
+    className="createclassroom-select"
+    value={formData.Subject}
+    onChange={handleChange}
+    required
+  >
+    <option value="">{t("selectOption")}</option>
+    <option value="Math">{t("math")}</option>
+    <option value="Science">{t("science")}</option>
+    <option value="English">{t("english")}</option>
+    <option value="Arabic">{t("arabic")}</option>
+    <option value="History">{t("history")}</option>
+    <option value="Geography">{t("geography")}</option>
+    <option value="Art">{t("art")}</option>
+    <option value="Physical Education">{t("physicalEducation")}</option>
+    <option value="Computer Science">{t("computerScience")}</option>
+    <option value="Biology">{t("biology")}</option>
+    <option value="Chemistry">{t("chemistry")}</option>
+    <option value="Physics">{t("physics")}</option>
+  </select>
+</div>
 
         <div className="createclassroom-input-wrapper">
-          <label className="createclassroom-label" htmlFor="Level">
-            {t("level")}
-          </label>
-          <input
-            type="text"
-            id="Level"
-            name="Level"
-            className="createclassroom-input"
-            value={formData.Level}
-            onChange={handleChange}
-            required
-          />
-        </div>
+  <label className="createclassroom-label" htmlFor="Level">
+    {t("level")}
+  </label>
+  <select
+    id="Level"
+    name="Level"
+    className="createclassroom-select"
+    value={formData.Level}
+    onChange={handleChange}
+    required
+  >
+    <option value="">{t("selectOption")}</option>
+    {Array.from({ length: 10 }, (_, i) => i + 3).map((grade) => (
+      <option key={grade} value={`Grade ${grade}`}>
+        {t(`grade${grade}`, { defaultValue: `Grade ${grade}` })}
+      </option>
+    ))}
+  </select>
+</div>
 
         <div className="createclassroom-input-wrapper">
           <label className="createclassroom-label" htmlFor="Disability">
@@ -148,18 +166,6 @@ const updatedFormData = {
           </select>
         </div>
 
-        <div className="createclassroom-input-wrapper">
-          <label className="createclassroom-label" htmlFor="Remark">
-            {t("remark")}
-          </label>
-          <textarea
-            id="Remark"
-            name="Remark"
-            className="createclassroom-input"
-            value={formData.Remark}
-            onChange={handleChange}
-          />
-        </div>
 
         <div className="createclassroom-input-wrapper">
           <label className="createclassroom-label" htmlFor="NumOfSections">
