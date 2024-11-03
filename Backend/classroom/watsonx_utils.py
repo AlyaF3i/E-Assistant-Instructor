@@ -6,6 +6,7 @@ import re
 from langchain_community.chat_models import ChatOllama
 from langchain.prompts import PromptTemplate
 from langchain_core.output_parsers import JsonOutputParser
+from PyPDF2 import PdfReader
 
 class ArabicTextToDict:
     def __init__(self):
@@ -112,17 +113,56 @@ def get_first_index(lines, prefix = '1.'):
         i += 1
     return -1
 
+def read_educational_pdf(grade_level, subject, base_path="educational_resources"):
+    """
+    Generate path from grade level and subject, then read and return PDF content.
+    
+    Args:
+        grade_level (str): The grade level (e.g., "grade1", "grade2")
+        subject (str): The subject name (e.g., "math", "science")
+        base_path (str): Base directory for educational resources (default: "educational_resources")
+    
+    Returns:
+        str: Extracted text from the PDF or error message
+    """
+    try:
+        # Clean and standardize inputs
+        grade_level = str(grade_level).lower().strip()
+        subject = subject.lower().strip()
+        
+        # Generate file path
+        file_name = f"{subject}.pdf"
+        file_path = os.path.join(base_path, grade_level, file_name)
+        
+        # Check if file exists
+        if not os.path.exists(file_path):
+            return f"PDF file not found at: {file_path}"
+        
+        # Read PDF and extract text
+        pdf_reader = PdfReader(file_path)
+        text_content = []
+        
+        for page in pdf_reader.pages:
+            text_content.append(page.extract_text())
+        
+        return "\n".join(text_content)
+    
+    except Exception as e:
+        return f"Error processing PDF: {str(e)}"
+
 def get_sections(data: dict) -> list[dict]:
     level = data['Level']
-    if data['Disability'].lower() == 'لا يوجد':
+    if data['Disability'].lower() == 'no':
         disability_prompt = ''
     else:
-        disability_prompt = f" الذين لديهم إعاقة {data['Disability']}"
+        disability_prompt = f" الذين لديهم صعوبة بالتعلم"
     subject = data['Subject']
     num_of_sections = data['NumOfSections']
-    details = data['Remark']
-
-    prompt = f"<s> [INST] قم بإنشاء {num_of_sections} أقسام تعليمية مع شرح تفصيلي لكل قسم متعلقة بموضوع {subject} لطلاب {level}{disability_prompt}. تأكد أيضًا من أن الأقسام تركز على {details} [/INST]"
+    # details = data['Remark']
+    details = read_educational_pdf(level, subject)
+    
+    
+    prompt = f"<s> [INST] {details}بأستخدام المحتوى الذي يسبق قم بإنشاء {num_of_sections} أقسام تعليمية مع شرح تفصيلي لكل قسم متعلقة بموضوع {subject} لطلاب {level}{disability_prompt}.[/INST]"
     resp = call_llm(prompt, temperature = 0.2)
     
     

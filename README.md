@@ -51,3 +51,10 @@ npm install
 ```bash
 npm start 
 ```
+
+
+# Other Stuff To Install
+
+### 1- Graphviz
+
+### 2- Ollama
