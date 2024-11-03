@@ -14,7 +14,7 @@ import "./i18n/i18n"; // Import i18n config
 
 const App = () => {
   const location = useLocation();
-  const showNavbar = location.pathname !== "/";
+  const showNavbar = location.pathname !== "/" &&location.pathname !=="/quiz/:quiz_uuid";
 
   return (
     <div className="app-container">
