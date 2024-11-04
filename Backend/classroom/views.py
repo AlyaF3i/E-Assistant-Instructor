@@ -93,10 +93,10 @@ def login(request):
                 description="List of students"
             ),
             'Subject': openapi.Schema(type=openapi.TYPE_STRING, description="Subject of the classroom", example="Mathematics"),
-            'Remark': openapi.Schema(type=openapi.TYPE_STRING, description="Remarks about the classroom", example="This is an introductory class"),
+            # 'Remark': openapi.Schema(type=openapi.TYPE_STRING, description="Remarks about the classroom", example="This is an introductory class"),
             'NumOfSections': openapi.Schema(type=openapi.TYPE_INTEGER, description="Number of sections in the classroom", example=3)
         },
-        required=['ClassRoomName', 'Level', 'Disability', 'StudentEmail', 'Subject', 'Remark', 'NumOfSections']
+        required=['ClassRoomName', 'Level', 'Disability', 'StudentEmail', 'Subject', 'NumOfSections']
     ),
     responses={
         status.HTTP_201_CREATED: create_classroom_response_schema,
@@ -114,7 +114,7 @@ def create_classroom_and_studyplan(request):
         subject=request.data['Subject'],
         level=request.data['Level'],
         disability=request.data['Disability'],
-        extra = request.data['Remark'],
+        extra = "",
         num_of_sections = request.data['NumOfSections'],
         teacher=teacher
     )
