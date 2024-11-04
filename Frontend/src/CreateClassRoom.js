@@ -18,6 +18,7 @@ const CreateClassroom = () => {
   const apiUrl = process.env.REACT_APP_API_URL;
   const [isStudentsSectionVisible, setIsStudentsSectionVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false); // Loading state
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -42,6 +43,8 @@ const CreateClassroom = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData)
+    setLoading(true); // Start loading
+
  // Extract student emails
  const studentDetails = students.map(student => ({
   Name: student.name,
@@ -76,6 +79,10 @@ const updatedFormData = {
     } catch (error) {
       console.error("Error:", error);
       setErrorMessage(t("error"));
+    }
+    finally{
+      setLoading(false); // Stop loading
+
     }
   };
 
@@ -240,8 +247,16 @@ const updatedFormData = {
 
         {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-        <button type="submit" className="createclassroom-button">
-          {t("createClassroomButton")}
+        <button
+          type="submit"
+          className="createclassroom-button"
+          disabled={loading} // Disable button while loading
+        >
+          {loading ? (
+            <div style={{display:"flex",flexDirection:"row", justifyContent:"center", alignItems:"center"}}>{t("Creating class")} &nbsp;<div className="spinner"></div></div> // Show spinner while loading
+          ) : (
+            t("createClassroomButton")
+          )}
         </button>
       </form>
     </div>

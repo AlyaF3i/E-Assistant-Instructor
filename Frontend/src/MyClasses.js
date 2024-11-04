@@ -24,7 +24,7 @@ const MyClasses = () => {
     try {
       const response = await fetch(`${apiUrl}api/classrooms/?UserName=${username}`, {
         headers: {
-          Authorization: `Token ${localStorage.getItem("token")}`, // Pass the token in the header
+          Authorization: `Token ${localStorage.getItem("authToken")}`, // Pass the token in the header
         },
       });
       
