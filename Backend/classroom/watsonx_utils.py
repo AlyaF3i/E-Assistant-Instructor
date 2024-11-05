@@ -94,25 +94,6 @@ def call_llm(prompt, max_new_tokens=900, temperature: float = 0.7):
         print(f"Error calling LLM: {str(e)}")
         return None
 
-def section_line_to_dict(line):
-    pattern = r"\d*\.\s*\*\*(.*?)\*\*: (.+)"
-    match = re.search(pattern, line)
-    if match:
-        topic = match.group(1)
-        description = match.group(2)
-        return {
-            "Topic": topic,
-            "Description": description
-        }
-
-def get_first_index(lines, prefix = '1.'):
-    i = 0
-    while i < len(lines):
-        if lines[i].startswith(prefix):
-            return i
-        i += 1
-    return -1
-
 def read_educational_pdf(grade_level, subject, base_path="educational_resources"):
     """
     Generate path from grade level and subject, then read and return PDF content.
@@ -230,29 +211,3 @@ def get_questions(title: str, description: str, num_questions: int = 5):
 
     output_dict = arabic_processor(text, example_dict, f"The number of items inside the data list should be {num_questions}, and the <answer_index> should be either 0,1,2,3 depending on which answer is the correct answer")
     return output_dict['data']
-    
-    # init_question_pattern = re.compile('سؤال\s+\d+:', flags = re.MULTILINE)
-    # indices = [z.span() for z in re.finditer(init_question_pattern, text.strip())]
-    # all_questions = list()
-    # for i, span in enumerate(indices):
-    #     start, end = span
-    #     nstart = len(text) if i + 1 == len(indices) else indices[i + 1][0]
-    #     # q_number = re.findall('\d+', text[start:end])[0]
-    #     lines = [l.strip() for l in text[end + 1: nstart].strip().split('\n') if l]
-    #     question = lines[0]
-    #     option_1 = lines[1].replace("أ.", "").strip()
-    #     option_2 = lines[2].replace("ب.", "").strip()
-    #     option_3 = lines[3].replace("ج.", "").strip()
-    #     option_4 = lines[4].replace("د.", "").strip()
-    #     answer = lines[5][lines[5].index(":"):lines[5].index(".")].strip()
-    #     answer_index = "أبجد".index(answer)
-    #     output_dict = {
-    #         "Q" : question,
-    #         "A1" : option_1,
-    #         "A2" : option_2,
-    #         "A3" : option_3,
-    #         "A4" : option_4,
-    #         "Correct" : answer_index
-    #     }
-    #     all_questions.append(output_dict)
-    # return all_questions

@@ -8,6 +8,7 @@ from django.shortcuts import get_object_or_404
 from .models import Student, Content, Section, Profile, Classroom, QuizAssignment, StudentAssessment, Question, StudentAnswer, SupportContent
 from .watsonx_utils import call_llm, get_sections, get_questions
 from .mind_map import MindMapGenerator
+from .powerpoint import PowerPointGenerator
 from .email_utils import send_quiz_assignment
 from threading import Thread
 from rest_framework import status
@@ -281,6 +282,19 @@ def create_content_or_mindmap(request):
             )
         except FileNotFoundError:
             return Response({"error": "MindMap generation failed."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+    elif content_type == 'PowerPoint':
+        generator = PowerPointGenerator(section.title, section.description)
+        pptx_file = generator()
+        try:
+            return FileResponse(
+                open(pptx_file, 'rb'),
+                as_attachment=True,
+                filename=f'mind_map_{section.title}.pptx',
+                content_type='application/vnd.openxmlformats-officedocument.presentationml.presentation'
+            )
+        except FileNotFoundError:
+            return Response({"error": "Powerpoint generation failed."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     elif content_type == 'Content':
         prompt = f"Generate educational content for the section: {section.title}."

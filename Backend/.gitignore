@@ -10,4 +10,5 @@ venv/
 env/
 .vscode/
 minds_maps/
+presentations/
 db.sqlite3

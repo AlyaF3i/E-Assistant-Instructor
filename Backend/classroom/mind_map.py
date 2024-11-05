@@ -51,7 +51,7 @@ class MindMapGenerator:
     def create_arabic_mind_map(self, ideas, filename="arabic_mind_map"):
         dot = graphviz.Digraph(comment="Arabic Mind Map", format="png")
         dot.attr(rankdir="RL", size="12,8")
-        dot.attr("node", shape="rectangle", style="rounded,filled", fontname=r"C:\Users\user\Downloads\Noto_Sans_Arabic\static\NotoSansArabic_Condensed-Black.ttf", fontsize="14")
+        dot.attr("node", shape="rectangle", style="rounded,filled", fontname=str(Path(r".\fonts\NotoSansArabic_Condensed-Black.ttf")), fontsize="14")
         dot.attr("edge", color="#7C7C7C", dir="back")  # Change arrow direction
 
         color_palette = ["#FFD700", "#FF6347", "#4682B4", "#32CD32", "#FF69B4", "#9370DB", "#20B2AA"]

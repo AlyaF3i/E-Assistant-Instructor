@@ -63,6 +63,7 @@ dependencies:
     - langchain-text-splitters==0.3.0
     - langsmith==0.1.135
     - lomond==0.3.3
+    - lxml==5.3.0
     - marshmallow==3.22.0
     - multidict==6.1.0
     - mypy-extensions==1.0.0
@@ -85,6 +86,7 @@ dependencies:
     - python-bidi==0.6.0
     - python-dotenv==1.0.1
     - python-graphviz==0.20.3
+    - python-pptx==1.0.2
     - pytz==2024.2
     - pyyaml==6.0.2
     - reportlab==4.2.5
@@ -101,6 +103,7 @@ dependencies:
     - uritemplate==4.1.1
     - urllib3==2.2.3
     - websocket-client==1.8.0
+    - xlsxwriter==3.2.0
     - yarl==1.11.1
     - zipp==3.20.2
 prefix: C:\Users\user\miniconda3\envs\studyplan
