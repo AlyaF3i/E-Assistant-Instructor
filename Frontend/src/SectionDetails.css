@@ -16,24 +16,32 @@
   font-weight: bold;
   text-align: center;
 }
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #ffffff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
 .section-card {
   padding: 25px;
   text-align: start;
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;  /* Smooth transition for hover effects */
+  transition: all 0.3s ease; /* Smooth transition for hover effects */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-.SectionDetails-input-wrapper{
+.SectionDetails-input-wrapper {
   display: flex;
   flex-direction: column;
   text-align: start;
 }
 .section-card:hover {
   transform: translateY(-7px);
-  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);}
-
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+}
 
 .section-card p {
   font-size: 18px;
@@ -61,12 +69,12 @@
 }
 
 .content-type-selector select:focus {
-  border-color: #36A2EB;  /* Change border color on focus */
+  border-color: #36a2eb; /* Change border color on focus */
 }
 .generate-content-btn {
   margin-top: 15px;
   padding: 10px 20px;
-  background-color: #36A2EB;
+  background-color: #36a2eb;
   color: white;
   border: none;
   border-radius: 5px;
@@ -75,13 +83,18 @@
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.generate-content-btn:hover {
-  background-color: #257AC9;
-  transform: translateY(-3px);  /* Adds a slight lift on hover */
+.generate-content-btn:not(:disabled):hover {
+  background-color: #257ac9;
+  transform: translateY(-3px); /* Adds a slight lift on hover */
 }
 
-.generate-content-btn:active {
-  transform: translateY(0);  /* Resets lift effect on click */
+.generate-content-btn:not(:disabled):active {
+  transform: translateY(0); /* Resets lift effect on click */
+}
+.generate-content-btn:disabled {
+  cursor: not-allowed;
+  background-color: #257ac9;
+  opacity: 0.6;
 }
 .section-card-counter {
   padding: 25px;
@@ -90,19 +103,37 @@
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;  /* Smooth transition for hover effects */
+  transition: all 0.3s ease; /* Smooth transition for hover effects */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 .section-card-counter:hover {
   transform: translateY(-7px);
-  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);}
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+}
 .count-display {
   font-size: 2.5em;
   color: #82ca9d;
 }
-
+.selected-card {
+  background-color: #ff7a00; /* Orange color */
+  color: white;
+}
+#section-selection-card {
+  display: flex;
+  flex-direction: row;
+  margin: 30px 0px;
+  gap: 60px;
+}
+.section-counter-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
 /* Responsive Design */
 @media (max-width: 768px) {
+  .section-counter-cards {
+    justify-content: center;
+  }
   .section-container {
     padding: 15px;
   }
@@ -125,7 +156,8 @@
 @media (max-width: 480px) {
   .section-container {
     padding: 10px;
-    width: 95%;  }
+    width: 95%;
+  }
 
   .section-title {
     font-size: 20px;
