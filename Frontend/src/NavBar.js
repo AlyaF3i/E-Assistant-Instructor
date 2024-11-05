@@ -11,7 +11,7 @@ const Navbar = () => {
   const { t, i18n } = useTranslation(); // Use the translation hook
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem('authToken');
     navigate('/');
   };
 
