@@ -2,8 +2,7 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
-
+  font-family: "Poppins", sans-serif;
 }
 .error-message {
   color: red; /* Change this color as needed */
@@ -50,12 +49,12 @@ body {
   background-color: #218838; /* Darker green on hover for active button */
 }
 
-[dir="rtl"] label, 
+[dir="rtl"] label,
 [dir="rtl"] input {
   text-align: right;
 }
 
-[dir="ltr"] label, 
+[dir="ltr"] label,
 [dir="ltr"] input {
   text-align: left;
 }
