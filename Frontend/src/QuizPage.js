@@ -82,9 +82,9 @@ const QuizPage = () => {
         setSubmitMessage(result.message);
 
         // Wait for 4 seconds before closing the window
-        // setTimeout(() => {
-        //   window.close();
-        // }, 4000);
+        setTimeout(() => {
+          window.close();
+        }, 4000);
       }
       // Handle successful submission here (e.g., show a success message)
     } catch (error) {
@@ -104,7 +104,14 @@ const QuizPage = () => {
           <h3>{t("Answers submitted successfully!")}</h3>
         </div>
       ) : (
-        <div>
+        <div
+          style={{
+            width: "100%",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}>
           <h1 className="quiz-title">Quiz</h1>
           {quizData.map((question) => (
             <div key={question.id} className="quiz-question">

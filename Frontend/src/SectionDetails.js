@@ -36,6 +36,7 @@ const SectionDetails = () => {
   const [loading, setLoading] = useState(false); // Loading state
   const [loading2, setLoading2] = useState(false); // Loading state
   const [loading3, setLoading3] = useState(false); // Loading state
+  const [loading4, setLoading4] = useState(false); // Loading state
 
   const handleSelection = (option) => {
     setSelectedOption(option);
@@ -126,7 +127,11 @@ const SectionDetails = () => {
     }
   };
   const handleSubmitSupport = (quizType) => async (e) => {
-    setLoading3(true);
+    if (quizType === "Quiz") {
+      setLoading3(true);
+    } else {
+      setLoading4(true);
+    }
     e.preventDefault();
     const supportcontent = {
       AssessmentType: quizType,
@@ -144,7 +149,11 @@ const SectionDetails = () => {
       });
 
       if (response.ok) {
-        setLoading3(false);
+        if (quizType === "Quiz") {
+          setLoading3(false);
+        } else {
+          setLoading4(false);
+        }
       }
     } catch (error) {
       console.error("Error:", error);
@@ -298,8 +307,22 @@ const SectionDetails = () => {
               {t("Yes")} &nbsp;&nbsp;{" "}
               <button
                 className="generate-content-btn"
+                disabled={loading4}
                 onClick={handleSubmitSupport("Assignment")}>
-                {t("Send support content")}
+                {loading4 ? (
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}>
+                    {t("sending support content")} &nbsp;
+                    <div className="spinner"></div>
+                  </div> // Show spinner while loading
+                ) : (
+                  t("Send support content")
+                )}
               </button>
             </>
           ) : (
@@ -337,7 +360,7 @@ const SectionDetails = () => {
                   justifyContent: "center",
                   alignItems: "center",
                 }}>
-                {t("Creating class")} &nbsp;<div className="spinner"></div>
+                {t("Generating Content")} &nbsp;<div className="spinner"></div>
               </div> // Show spinner while loading
             ) : (
               t("Generate Content")
@@ -550,6 +573,11 @@ const SectionDetails = () => {
                     marksData?.NumberOfTotalStudents -
                     marksData?.NumberOfSubmittedAssessment
                   }
+                  speed={1000}
+                />
+                <SubmissionCounterCard
+                  title={t("Total students")}
+                  totalSubmitted={marksData?.NumberOfTotalStudents}
                   speed={1000}
                 />
               </div>

@@ -78,6 +78,7 @@
   "biology": "Biology",
   "chemistry": "Chemistry",
   "physics": "Physics",
+  "Creating class": "Creating class",
 
   "Section Details": "Section Details",
   "Section Name": "Section Name",
@@ -93,6 +94,7 @@
   "PDF": "PDF",
   "PowerPoint": "PowerPoint",
   "Generate Content": "Generate Content",
+  "Generating Content": "Generating Content",
   "Failed to fetch section details": "Failed to fetch section details",
   "Failed to load section details. Please try again.": "Failed to load section details. Please try again.",
   "Select Quiz or Assignment": "Select Quiz or Assignment",

@@ -78,6 +78,7 @@
   "Student added successfully!": "تم إضافة الطالب بنجاح!",
   "An error occurred while adding the student. Please try again.": "حدث خطأ أثناء إضافة الطالب. يرجى المحاولة مرة أخرى.",
   "Remove": "إزالة",
+  "Creating class": "يتم إنشاء الصف",
 
   "Section Details": "تفاصيل القسم",
   "Section Name": "اسم القسم",
@@ -92,6 +93,7 @@
   "Content": "محتوى",
   "PDF": "بي دي إف",
   "PowerPoint": "بوربوينت ",
+  "Generating Content": "يتم إنشاء المحتوى",
   "Generate Content": " إنشاء محتوى",
   "Failed to fetch section details": "فشل في جلب تفاصيل القسم",
   "Failed to load section details. Please try again.": "فشل في تحميل تفاصيل القسم. يرجى المحاولة مرة أخرى.",
