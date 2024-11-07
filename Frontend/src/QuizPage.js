@@ -112,7 +112,6 @@ const QuizPage = () => {
             justifyContent: "center",
             alignItems: "center",
           }}>
-          <h1 className="quiz-title">Quiz</h1>
           {quizData.map((question) => (
             <div key={question.id} className="quiz-question">
               <h3 className="question-text">{question.text}</h3>

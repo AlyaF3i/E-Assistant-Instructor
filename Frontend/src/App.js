@@ -24,6 +24,11 @@ const App = () => {
 
   return (
     <div className="app-container">
+      {!showNavbar && (
+        <div className="language-switcher">
+          <SwitchToggle />
+        </div>
+      )}
       {showNavbar && <Navbar />}
 
       <Routes>
