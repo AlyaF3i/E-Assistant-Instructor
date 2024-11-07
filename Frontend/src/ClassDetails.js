@@ -4,8 +4,6 @@ import "./ClassDetails.css";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-
-
 const ClassDetails = () => {
   const { classId } = useParams();
   const navigate = useNavigate();
@@ -30,7 +28,6 @@ const ClassDetails = () => {
   const [showStudents, setShowStudents] = useState(true); // State to show/hide students
   const [isFetched, setIsFetched] = useState(false); // New state variable
 
-
   const handleAddStudent = async () => {
     setErrorMessage("");
     setSuccessMessage("");
@@ -41,19 +38,20 @@ const ClassDetails = () => {
       return;
     }
     try {
-      const response = await fetch(
-        `${apiUrl}api/add-student/`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({classroom_id:classId ,student_name:studentName,student_email: studentEmail }),
-        }
-      );
+      const response = await fetch(`${apiUrl}api/add-student/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          classroom_id: classId,
+          student_name: studentName,
+          student_email: studentEmail,
+        }),
+      });
 
       if (response.ok) {
-        setStudentName("")
+        setStudentName("");
         setStudentEmail("");
         setSuccessMessage("Student added successfully!");
         setIsFetched(true); // Set to true to trigger a re-fetch
@@ -74,19 +72,15 @@ const ClassDetails = () => {
     return re.test(email);
   };
 
-
   const removeStudent = (email) => {};
 
- 
   useEffect(() => {
     fetchClassDetails();
   }, [isFetched]);
 
   const fetchClassDetails = async () => {
     try {
-      const response = await fetch(
-        `${apiUrl}api/classroom/${classId}/`
-      );
+      const response = await fetch(`${apiUrl}api/classroom/${classId}/`);
       if (!response.ok) {
         throw new Error("Failed to fetch classroom details");
       }
@@ -100,11 +94,12 @@ const ClassDetails = () => {
   };
 
   const handleSectionClick = (section) => {
-    console.log()
-   navigate(`/class/${classId}/section/${section.SectionId}`,{state: {
-    sectionId: section.SectionId,
-   }
-  },)
+    console.log();
+    navigate(`/class/${classId}/section/${section.SectionId}`, {
+      state: {
+        sectionId: section.SectionId,
+      },
+    });
   };
   return (
     <div className="classdetails-container">
@@ -166,11 +161,13 @@ const ClassDetails = () => {
             type="text"
             placeholder={t("Student Name")}
             value={studentName}
+            required
             onChange={(e) => setStudentName(e.target.value)}
           />
           <input
             type="email"
             placeholder={t("Student Email")}
+            required
             value={studentEmail}
             onChange={(e) => setStudentEmail(e.target.value)}
           />
@@ -180,7 +177,7 @@ const ClassDetails = () => {
             {t("Add Student")}
           </button>
         </div>
-        
+
         {errorMessage && (
           <p id="error-message" className="error-message">
             {errorMessage}
@@ -196,9 +193,14 @@ const ClassDetails = () => {
         <div className="sections-container">
           {classData.sections.length > 0 ? (
             classData.sections.map((section) => (
-              <div className="section-card" key={section.id} onClick={() => handleSectionClick(section)}>
+              <div
+                className="section-card"
+                key={section.id}
+                onClick={() => handleSectionClick(section)}>
                 <h4>{section.Title}</h4>
-                <p>{t("Description")}: {section.Description}</p>
+                <p>
+                  {t("Description")}: {section.Description}
+                </p>
               </div>
             ))
           ) : (

@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next"; // Import the translation hook
 
 import "./NavBar.css";
+import SwitchToggle from "./SwitchToggle";
 //... other imports
 
 const Navbar = () => {
@@ -27,6 +28,9 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="navbar-container">
         <div className={`navbar-links ${menuOpen ? "active" : ""}`}>
+          <div className="language-switcher">
+            <SwitchToggle />
+          </div>
           <Link to="/my-classes" className="navbar-link">
             {t("My Classes")}
           </Link>

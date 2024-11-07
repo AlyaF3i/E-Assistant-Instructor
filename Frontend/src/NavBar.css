@@ -15,11 +15,10 @@
   flex-direction: row-reverse;
 }
 
-.navbar-brand .navbar-logo {
-  font-size: 24px;
-  font-weight: bold;
-  color: #257ac9; /* Primary color */
-  text-decoration: none;
+.navbar-brand {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
 }
 
 .navbar-links {
@@ -39,26 +38,29 @@
 }
 
 .navbar-button {
-  background-color: #36a2eb; /* Button color */
-  color: white; /* Text color for buttons */
-  border: none;
+  background-color: transparent; /* Remove background color */
+  color: #257ac9; /* Text color matches original background color */
+  border: 2px dotted #257ac9; /* Dotted border with original color */
   border-radius: 5px;
   padding: 8px 12px;
   margin-left: 10px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: all 0.3s, color 0.3s; /* Transition on border color and text color */
 }
 
 .navbar-button:hover {
   background-color: #257ac9; /* Button hover color */
+  color: white; /* Text color matches original background color */
 }
 
 .logout-button {
   background-color: #ff8a00; /* Logout button color */
+  border: none;
+  color: white;
 }
 
 .logout-button:hover {
-  background-color: #e47c05; /* Logout button hover color */
+  background-color: #e47105; /* Logout button hover color */
 }
 .menu-toggle {
   display: none; /* Hide by default */
@@ -77,12 +79,13 @@
   .navbar-links {
     flex-direction: column;
     position: absolute;
-    top: 145px; /* Below navbar */
+    top: 60px; /* Below navbar */
     right: 0;
     background-color: white; /* White background for dropdown */
     width: 100%;
     border: 1px solid #ff8a00; /* Border for dropdown */
     display: none; /* Hidden by default */
+    z-index: 999;
   }
 
   .navbar-links.active {
@@ -99,4 +102,50 @@
   .logout-mobile {
     margin-bottom: 10px;
   }
+}
+.language-switcher {
+  direction: ltr;
+  display: flex;
+  justify-content: center;
+  background-color: white;
+  scale: 0.7;
+}
+
+.language-switcher button {
+  background-color: #007bff; /* Blue background */
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  margin: 0 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.language-switcher button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
+
+.language-switcher button:focus {
+  outline: none;
+  background-color: #003d80; /* Even darker blue when focused */
+}
+
+.language-switcher button.active {
+  background-color: #28a745; /* Green background for the active language */
+}
+
+.language-switcher button.active:hover {
+  background-color: #218838; /* Darker green on hover for active button */
+}
+
+[dir="rtl"] label,
+[dir="rtl"] input {
+  text-align: right;
+}
+
+[dir="ltr"] label,
+[dir="ltr"] input {
+  text-align: left;
 }

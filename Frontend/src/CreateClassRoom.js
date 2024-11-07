@@ -101,6 +101,7 @@ const CreateClassroom = () => {
             id="ClassRoomName"
             name="ClassRoomName"
             className="createclassroom-input"
+            placeholder={t("Enter a class name")}
             value={formData.ClassRoomName}
             onChange={handleChange}
             required
@@ -179,6 +180,7 @@ const CreateClassroom = () => {
             type="number"
             id="NumOfSections"
             name="NumOfSections"
+            placeholder={t("Enter how many sections you want")}
             className="createclassroom-input"
             value={formData.NumOfSections}
             onChange={handleChange}

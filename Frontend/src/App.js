@@ -24,9 +24,6 @@ const App = () => {
 
   return (
     <div className="app-container">
-      <div className="language-switcher">
-        <SwitchToggle />
-      </div>
       {showNavbar && <Navbar />}
 
       <Routes>

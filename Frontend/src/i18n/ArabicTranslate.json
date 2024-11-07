@@ -17,6 +17,8 @@
   "disability": "احتياجات خاصة",
   "yes": "نعم",
   "no": "لا",
+  "Enter how many sections you want": "أدخل كم قسم تريد في الصف",
+  "Enter a class name": "أدخل اسم الصف",
   "selectOption": "الرجاء الاختيار",
   "remark": "ملاحظات",
   "numOfSections": "عدد الأقسام",
