@@ -19,6 +19,7 @@
   "Description": "الوصف",
   "Title": "العنوان",
   "no": "لا",
+  "Remove": "إزالة",
   "add section manually": "إضافة قسم يدويًا",
   "Enter how many sections you want": "أدخل كم قسم تريد في الصف",
   "enter the section title": "أدخل عنوان القسم",
@@ -84,7 +85,6 @@
   "Invalid email format": "تنسيق البريد الإلكتروني غير صالح",
   "Student added successfully!": "تم إضافة الطالب بنجاح!",
   "An error occurred while adding the student. Please try again.": "حدث خطأ أثناء إضافة الطالب. يرجى المحاولة مرة أخرى.",
-  "Remove": "إزالة",
   "Creating class": "يتم إنشاء الصف",
 
   "Section Details": "تفاصيل القسم",

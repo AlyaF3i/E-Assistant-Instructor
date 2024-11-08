@@ -121,7 +121,7 @@ def read_txt(grade_level, subject, base_path="educational_resources"):
             return f"TXT file not found at: {file_path}"
         grade_number = int(grade_level.replace("grade", ''))
         with open(file_path, 'r') as fp:
-            topics = [f"الصف {grade_number} الصف {a.stirp(' .')}" for a in fp.readlines() if a.strip(' .')]
+            topics = [f"الصف {grade_number} الصف {a.stirp()}" for a in fp.readlines()]
         
         return topics
     

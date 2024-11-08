@@ -41,6 +41,6 @@ urlpatterns = [
     path('add_section/', views.add_section_to_classroom, name='add_section'),
 
     # URL for deleting a section from a classroom
-    path('delete_section/<int:section_id>/', views.delete_section_from_classroom, name='delete_section'),
+    path('delete_section/<int:section_id>', views.delete_section_from_classroom, name='delete_section'),
 
 ]
