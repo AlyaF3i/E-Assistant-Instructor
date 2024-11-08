@@ -5,6 +5,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  direction: ltr; /* or set to rtl if you want it to stay in RTL mode */
 }
 
 .navbar-container {

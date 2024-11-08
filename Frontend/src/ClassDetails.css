@@ -158,6 +158,9 @@ body {
   border-radius: 6px;
   font-size: 16px;
   outline: none;
+  width: 100%; /* Make input and textarea take full width of the container */
+  box-sizing: border-box; /* Ensure padding is included in width */
+  resize: none; /* Prevent the textarea from resizing */
   transition: all 0.3s ease;
 }
 .section-input:focus {
@@ -246,7 +249,6 @@ focus,
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   padding: 15px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;
 }
 .section-card3 {
   flex: 1 1 200px;
@@ -264,7 +266,6 @@ focus,
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   padding: 15px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;
 }
 .button-container {
   display: flex;
