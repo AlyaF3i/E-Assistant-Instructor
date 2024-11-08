@@ -68,24 +68,22 @@ const ClassDetails = () => {
 
     // Prepare data to send
     const data = {
-      classId: classId,
-      title,
-      description,
+      classroom_id: classId,
+      section_title: title,
+      section_description: description,
     };
 
     try {
-      // Replace 'YOUR_API_URL' with the actual endpoint
-      const response = await fetch(`${apiUrl}api/add-student/`, {
+      const response = await fetch(`${apiUrl}api/add_section/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
       });
-
+      console.log(data);
       if (response.ok) {
         console.log("Data submitted successfully");
-        // Optionally reset form fields
         setTitle("");
         setDescription("");
         setIsFetched(true);
@@ -129,6 +127,23 @@ const ClassDetails = () => {
       },
     });
   };
+  function remove_section(id) {
+    fetch(`${apiUrl}api/delete_section/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          // Optionally update your UI or state after deletion
+          setIsFetched(true);
+        }
+      })
+      .catch((error) => console.error("Error deleting section:", error));
+  }
+
   return (
     <div className="classdetails-container">
       <h2 className="classdetails-title">{t("Class Details")}</h2>
@@ -263,9 +278,25 @@ const ClassDetails = () => {
           {classData.sections.length > 0 ? (
             classData.sections.map((section) => (
               <div
-                className="section-card"
-                key={section.id}
+                className="section-card3"
+                key={section.SectionId}
                 onClick={() => handleSectionClick(section)}>
+                <div className="delete-container">
+                  <button
+                    className="delete-button"
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevent triggering the section click event
+                      if (
+                        window.confirm(
+                          "Are you sure you want to delete this section?"
+                        )
+                      ) {
+                        remove_section(section.SectionId); // Call the API function with section ID
+                      }
+                    }}>
+                    <p>{t("Remove")}</p>
+                  </button>
+                </div>
                 <h4>{section.Title}</h4>
                 <p>
                   {t("Description")}: {section.Description}
