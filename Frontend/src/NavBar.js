@@ -1,18 +1,19 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useTranslation } from 'react-i18next';  // Import the translation hook
+import { useTranslation } from "react-i18next"; // Import the translation hook
 
-import "./NavBar.css"
+import "./NavBar.css";
+import SwitchToggle from "./SwitchToggle";
 //... other imports
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false); // State to manage menu visibility
   const navigate = useNavigate();
-  const { t, i18n } = useTranslation(); // Use the translation hook
+  const { t } = useTranslation(); // Use the translation hook
 
   const handleLogout = () => {
-    localStorage.removeItem('authToken');
-    navigate('/');
+    localStorage.removeItem("authToken");
+    navigate("/");
   };
 
   const handleBack = () => {
@@ -26,20 +27,32 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="navbar-container">
-      <div className={`navbar-links ${menuOpen ? "active" : ""}`}>
-          <Link to="/my-classes" className="navbar-link">{t("My Classes")}</Link>
-          <Link to="/create-class" className="navbar-link">{t("Create Classroom")}</Link>
-          <button className="navbar-button logout-button logout-mobile"  onClick={handleLogout}>{t("Logout")}</button>
+        <div className={`navbar-links ${menuOpen ? "active" : ""}`}>
+          <div className="language-switcher">
+            <SwitchToggle />
+          </div>
+          <Link to="/my-classes" className="navbar-link">
+            {t("My Classes")}
+          </Link>
+          <Link to="/create-class" className="navbar-link">
+            {t("Create Classroom")}
+          </Link>
+          <button
+            className="navbar-button logout-button logout-mobile"
+            onClick={handleLogout}>
+            {t("Logout")}
+          </button>
         </div>
         <div className="navbar-brand">
-            <button className="navbar-button" onClick={handleBack}>{t("Back")}</button>
+          <button className="navbar-button" onClick={handleBack}>
+            {t("Back")}
+          </button>
         </div>
         <button className="menu-toggle" onClick={toggleMenu}>
           ☰
         </button>
-        
       </div>
     </nav>
   );
 };
-export default Navbar
+export default Navbar;

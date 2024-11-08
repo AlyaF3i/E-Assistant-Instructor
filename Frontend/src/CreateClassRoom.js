@@ -16,7 +16,8 @@ const CreateClassroom = () => {
     StudentEmail: [],
   });
   const apiUrl = process.env.REACT_APP_API_URL;
-  const [isStudentsSectionVisible, setIsStudentsSectionVisible] = useState(false);
+  const [isStudentsSectionVisible, setIsStudentsSectionVisible] =
+    useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false); // Loading state
 
@@ -42,22 +43,24 @@ const CreateClassroom = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData)
+    console.log(formData);
     setLoading(true); // Start loading
 
- // Extract student emails
- const studentDetails = students.map(student => ({
-  Name: student.name,
-  Email: student.email,
-}));
+    // Extract student emails
+    const studentDetails = students
+      .filter((student) => student.name && student.email) // Only include students with both name and email
+      .map((student) => ({
+        Name: student.name,
+        Email: student.email,
+      }));
 
-// Update the formData to include the student details
-const updatedFormData = {
-  ...formData,
-  StudentEmail: studentDetails, // Add student details here
-};
+    // Update the formData to include the student details
+    const updatedFormData = {
+      ...formData,
+      StudentEmail: studentDetails, // Add student details here
+    };
 
- console.log(updatedFormData); // Log the updated dataToSubmit
+    console.log(updatedFormData); // Log the updated dataToSubmit
     try {
       const response = await fetch(`${apiUrl}api/classroom/create/`, {
         method: "POST",
@@ -79,10 +82,8 @@ const updatedFormData = {
     } catch (error) {
       console.error("Error:", error);
       setErrorMessage(t("error"));
-    }
-    finally{
+    } finally {
       setLoading(false); // Stop loading
-
     }
   };
 
@@ -100,6 +101,7 @@ const updatedFormData = {
             id="ClassRoomName"
             name="ClassRoomName"
             className="createclassroom-input"
+            placeholder={t("Enter a class name")}
             value={formData.ClassRoomName}
             onChange={handleChange}
             required
@@ -107,53 +109,51 @@ const updatedFormData = {
         </div>
 
         <div className="createclassroom-input-wrapper">
-  <label className="createclassroom-label" htmlFor="Subject">
-    {t("subject")}
-  </label>
-  <select
-    id="Subject"
-    name="Subject"
-    className="createclassroom-select"
-    value={formData.Subject}
-    onChange={handleChange}
-    required
-  >
-    <option value="">{t("selectOption")}</option>
-    <option value="Math">{t("math")}</option>
-    <option value="Science">{t("science")}</option>
-    <option value="English">{t("english")}</option>
-    <option value="Arabic">{t("arabic")}</option>
-    <option value="History">{t("history")}</option>
-    <option value="Geography">{t("geography")}</option>
-    <option value="Art">{t("art")}</option>
-    <option value="Physical Education">{t("physicalEducation")}</option>
-    <option value="Computer Science">{t("computerScience")}</option>
-    <option value="Biology">{t("biology")}</option>
-    <option value="Chemistry">{t("chemistry")}</option>
-    <option value="Physics">{t("physics")}</option>
-  </select>
-</div>
+          <label className="createclassroom-label" htmlFor="Subject">
+            {t("subject")}
+          </label>
+          <select
+            id="Subject"
+            name="Subject"
+            className="createclassroom-select"
+            value={formData.Subject}
+            onChange={handleChange}
+            required>
+            <option value="">{t("selectOption")}</option>
+            <option value="Math">{t("math")}</option>
+            <option value="Science">{t("science")}</option>
+            <option value="English">{t("english")}</option>
+            <option value="Arabic">{t("arabic")}</option>
+            <option value="History">{t("history")}</option>
+            <option value="Geography">{t("geography")}</option>
+            <option value="Art">{t("art")}</option>
+            <option value="Physical Education">{t("physicalEducation")}</option>
+            <option value="Computer Science">{t("computerScience")}</option>
+            <option value="Biology">{t("biology")}</option>
+            <option value="Chemistry">{t("chemistry")}</option>
+            <option value="Physics">{t("physics")}</option>
+          </select>
+        </div>
 
         <div className="createclassroom-input-wrapper">
-  <label className="createclassroom-label" htmlFor="Level">
-    {t("level")}
-  </label>
-  <select
-    id="Level"
-    name="Level"
-    className="createclassroom-select"
-    value={formData.Level}
-    onChange={handleChange}
-    required
-  >
-    <option value="">{t("selectOption")}</option>
-    {Array.from({ length: 10 }, (_, i) => i + 3).map((grade) => (
-      <option key={grade} value={`Grade ${grade}`}>
-        {t(`grade${grade}`, { defaultValue: `Grade ${grade}` })}
-      </option>
-    ))}
-  </select>
-</div>
+          <label className="createclassroom-label" htmlFor="Level">
+            {t("level")}
+          </label>
+          <select
+            id="Level"
+            name="Level"
+            className="createclassroom-select"
+            value={formData.Level}
+            onChange={handleChange}
+            required>
+            <option value="">{t("selectOption")}</option>
+            {Array.from({ length: 10 }, (_, i) => i + 3).map((grade) => (
+              <option key={grade} value={`Grade ${grade}`}>
+                {t(`grade${grade}`, { defaultValue: `Grade ${grade}` })}
+              </option>
+            ))}
+          </select>
+        </div>
 
         <div className="createclassroom-input-wrapper">
           <label className="createclassroom-label" htmlFor="Disability">
@@ -165,14 +165,12 @@ const updatedFormData = {
             className="createclassroom-select"
             value={formData.Disability}
             onChange={handleChange}
-            required
-          >
+            required>
             <option value="">{t("selectOption")}</option>
             <option value="yes">{t("yes")}</option>
             <option value="no">{t("no")}</option>
           </select>
         </div>
-
 
         <div className="createclassroom-input-wrapper">
           <label className="createclassroom-label" htmlFor="NumOfSections">
@@ -182,6 +180,7 @@ const updatedFormData = {
             type="number"
             id="NumOfSections"
             name="NumOfSections"
+            placeholder={t("Enter how many sections you want")}
             className="createclassroom-input"
             value={formData.NumOfSections}
             onChange={handleChange}
@@ -191,9 +190,10 @@ const updatedFormData = {
 
         <div className="createclassroom-students-toggle">
           <h3
-            onClick={() => setIsStudentsSectionVisible(!isStudentsSectionVisible)}
-            className="createclassroom-students-title"
-          >
+            onClick={() =>
+              setIsStudentsSectionVisible(!isStudentsSectionVisible)
+            }
+            className="createclassroom-students-title">
             {isStudentsSectionVisible ? t("hideStudents") : t("addStudents")}
           </h3>
         </div>
@@ -228,8 +228,7 @@ const updatedFormData = {
                   <button
                     type="button"
                     className="createclassroom-remove-student-button"
-                    onClick={() => removeStudent(index)}
-                  >
+                    onClick={() => removeStudent(index)}>
                     {t("removeStudent")}
                   </button>
                 )}
@@ -238,8 +237,7 @@ const updatedFormData = {
             <button
               type="button"
               className="createclassroom-add-student-button"
-              onClick={addStudent}
-            >
+              onClick={addStudent}>
               {t("addStudent")}
             </button>
           </div>
@@ -253,7 +251,15 @@ const updatedFormData = {
           disabled={loading} // Disable button while loading
         >
           {loading ? (
-            <div style={{display:"flex",flexDirection:"row", justifyContent:"center", alignItems:"center"}}>{t("Creating class")} &nbsp;<div className="spinner"></div></div> // Show spinner while loading
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+              }}>
+              {t("Creating class")} &nbsp;<div className="spinner"></div>
+            </div> // Show spinner while loading
           ) : (
             t("createClassroomButton")
           )}

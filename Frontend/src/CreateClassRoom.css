@@ -1,14 +1,13 @@
 /* Import Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
 
 /* Base Styles */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
-
 
 /* Container */
 .createclassroom-container {
@@ -50,7 +49,7 @@
 }
 
 .createclassroom-title::after {
-  content: '';
+  content: "";
   width: 60px;
   height: 4px;
   background-color: #ff8a00;
@@ -96,7 +95,7 @@
 /* Button */
 .createclassroom-button {
   padding: 15px;
-  background-color: #36A2EB;
+  background-color: #36a2eb;
   color: white;
   border: none;
   border-radius: 8px;
@@ -108,8 +107,11 @@
   text-transform: uppercase;
 }
 
-.createclassroom-button:hover {
-  background-color: #257AC9;
+.createclassroom-button:not(:disabled):hover {
+  background-color: #257ac9;
+}
+.createclassroom-button:not(:disabled):active {
+  transform: translateY(0); /* Resets lift effect on click */
 }
 /* Students Section */
 .createclassroom-students-title {
@@ -127,35 +129,37 @@
   margin-bottom: 15px;
 }
 
-.createclassroom-add-student-button{
-  background-color: #28a745;
-  color: white;
-  border: none;
+.createclassroom-add-student-button {
+  background-color: transparent;
+  color: #218838;
+  border: 2px dotted #218838;
   padding: 10px;
   border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
 }
 .createclassroom-remove-student-button {
-  background-color: #cf0d37;
-  color: white;
+  background-color: transparent;
+  color: red;
   border: none;
   padding: 10px;
   border-radius: 8px;
+  border: 2px dotted red;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
 }
 
-.createclassroom-add-student-button:hover{
+.createclassroom-add-student-button:hover {
   background-color: #218838;
-
+  color: white;
 }
 .createclassroom-remove-student-button:hover {
-  background-color: #a80b2d;
+  background-color: red;
+  color: white;
 }
 .createclassroom-button:disabled {
   cursor: not-allowed;
-  background-color: #257AC9;
+  background-color: #257ac9;
   opacity: 0.6;
 }
 .spinner {

@@ -645,9 +645,9 @@ def get_assessment_results(request):
                     "email": assessment.student.email,
                     "mark": assessment.marks
                 }
-                for assessment in StudentAssessment.objects.filter(quiz_assignment = assessment)
+                for assessment in StudentAssessment.objects.filter(quiz_assignment = assessment).exclude(marks=-1)
             ],
-        "NumberOfSubmittedAssessment": StudentAssessment.objects.filter(quiz_assignment = assessment).count(),
+        "NumberOfSubmittedAssessment": StudentAssessment.objects.filter(quiz_assignment = assessment).exclude(marks=-1).count(),
         "NumberOfTotalStudents": Student.objects.filter(classroom = classroom).count(),
     }
     return Response(output)

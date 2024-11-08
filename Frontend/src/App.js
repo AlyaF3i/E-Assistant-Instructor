@@ -1,5 +1,10 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom"; // Move Router import to the top
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom"; // Move Router import to the top
 import CreateClassroom from "./CreateClassRoom";
 import MyClasses from "./MyClasses";
 import ClassDetails from "./ClassDetails";
@@ -14,13 +19,16 @@ import "./i18n/i18n"; // Import i18n config
 
 const App = () => {
   const location = useLocation();
-  const showNavbar = location.pathname !== "/" &&location.pathname !=="/quiz/:quiz_uuid";
+  const showNavbar =
+    location.pathname !== "/" && !location.pathname.includes("/quiz/");
 
   return (
     <div className="app-container">
-      <div className="language-switcher">
-        <SwitchToggle />
-      </div>
+      {!showNavbar && (
+        <div className="language-switcher">
+          <SwitchToggle />
+        </div>
+      )}
       {showNavbar && <Navbar />}
 
       <Routes>

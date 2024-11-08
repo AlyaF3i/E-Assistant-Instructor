@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import "./MyClasses.css";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 const MyClasses = () => {
   const [classes, setClasses] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
+  const [showTooltip, setShowTooltip] = useState(false);
   const { t } = useTranslation(); // Initialize translation hook
   const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -22,20 +23,23 @@ const MyClasses = () => {
     }
 
     try {
-      const response = await fetch(`${apiUrl}api/classrooms/?UserName=${username}`, {
-        headers: {
-          Authorization: `Token ${localStorage.getItem("authToken")}`, // Pass the token in the header
-        },
-      });
-      
+      const response = await fetch(
+        `${apiUrl}api/classrooms/?UserName=${username}`,
+        {
+          headers: {
+            Authorization: `Token ${localStorage.getItem("authToken")}`, // Pass the token in the header
+          },
+        }
+      );
+
       if (response.ok) {
         const data = await response.json();
         const classData = data.ClassRoomId.map((id, index) => ({
           id: id,
           ClassRoomName: data.ClassRoomName[index],
-          studentCount: data.StudentNumbers[index],  // You can adjust this if there are students for each class in the future
+          studentCount: data.StudentNumbers[index], // You can adjust this if there are students for each class in the future
         }));
-        console.log(data)
+        console.log(data);
 
         setClasses(classData);
       } else {
@@ -56,23 +60,39 @@ const MyClasses = () => {
   };
   return (
     <div className="myclasses-container">
-    <h2 className="myclasses-title">{t("myCreatedClasses")}</h2>
-    {errorMessage && <p className="error-message">{errorMessage}</p>}
-    <div className="myclasses-list">
-      {classes.length > 0 ? (
-        classes.map((classItem) => (
-          <div key={classItem.id} className="myclass-card" onClick={() => handleNavigate(classItem)}>
-            <h3 className="myclass-card-title">{classItem.ClassRoomName}</h3>
-            <div className="myclass-details">
-              <p><strong>{t("studentsCount")}:</strong> {classItem.studentCount}</p> {/* Display the count of students */}
+      <h2 className="myclasses-title">{t("myCreatedClasses")}</h2>
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
+      <div className="myclasses-list">
+        {classes.length > 0 ? (
+          classes.map((classItem) => (
+            <div
+              key={classItem.id}
+              className="myclass-card"
+              onClick={() => handleNavigate(classItem)}>
+              <h3 className="myclass-card-title">{classItem.ClassRoomName}</h3>
+              <div className="myclass-details">
+                <p>
+                  <strong>{t("studentsCount")}:</strong>{" "}
+                  {classItem.studentCount}
+                </p>{" "}
+                {/* Display the count of students */}
+              </div>
             </div>
-          </div>
-        ))
-      ) : (
-        <p>{t("noClassesAvailable")}</p>
-      )}
+          ))
+        ) : (
+          <p>{t("noClassesAvailable")}</p>
+        )}
+      </div>
+      <Link to="/create-class" className="navbar-link">
+        <div
+          className="shape"
+          onMouseEnter={() => setShowTooltip(true)}
+          onMouseLeave={() => setShowTooltip(false)}>
+          <p className="shape-text">+</p>
+          {showTooltip && <div className="tooltip">{t("createClassroom")}</div>}
+        </div>
+      </Link>
     </div>
-  </div>
   );
 };
 
