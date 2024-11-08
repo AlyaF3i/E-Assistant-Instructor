@@ -154,8 +154,8 @@ def get_sections(data: dict) -> list[dict]:
     topics = read_txt(level, subject)
     loop = asyncio.get_event_loop()
     details = loop.run_until_complete(search_web(topics))
-    
-    prompt = f"<s> [INST] {'\n'.join(details)}بأستخدام الدروس الذي سبقت قم بإنشاء {num_of_sections} أقسام تعليمية مع شرح تفصيلي لكل قسم متعلقة بموضوع {subject} لطلاب {level}{disability_prompt}.[/INST]"
+    content = '\n'.join(details)
+    prompt = f"<s> [INST] {content}بأستخدام الدروس الذي سبقت قم بإنشاء {num_of_sections} أقسام تعليمية مع شرح تفصيلي لكل قسم متعلقة بموضوع {subject} لطلاب {level}{disability_prompt}.[/INST]"
     resp = call_llm(prompt, temperature = 0.2)
     
     
