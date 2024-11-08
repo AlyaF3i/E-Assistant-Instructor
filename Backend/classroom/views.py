@@ -186,7 +186,7 @@ def add_section_to_classroom(request):
 
     # Check if the classroom exists
     try:
-        classroom = Classroom.objects.get(id=classroom_id)
+        classroom = Classroom.objects.get(pk=classroom_id)
     except Classroom.DoesNotExist:
         return Response({"message": "Classroom not found."}, status=status.HTTP_404_NOT_FOUND)
 
