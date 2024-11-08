@@ -21,6 +21,9 @@ class Classroom(models.Model):
     teacher = models.ForeignKey(User, on_delete=models.CASCADE, related_name="classrooms")
     created_at = models.DateTimeField(auto_now_add=True)
 
+    def get_student_count(self):
+        return self.students.count()
+    
     def __str__(self):
         return f"{self.subject} - {self.level}"
 
@@ -34,6 +37,8 @@ class Section(models.Model):
 
     def __str__(self):
         return f"{self.section_name} ({self.section_type})"
+    def get_student_count(self):
+        return self.classroom.students.count()
 
 # Content model to generate lesson content
 class Content(models.Model):

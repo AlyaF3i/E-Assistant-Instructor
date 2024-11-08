@@ -6,7 +6,8 @@ import re
 from langchain_community.chat_models import ChatOllama
 from langchain.prompts import PromptTemplate
 from langchain_core.output_parsers import JsonOutputParser
-from PyPDF2 import PdfReader
+from duckduckgo_search import DDGS, AsyncDDGS
+import asyncio
 
 class ArabicTextToDict:
     def __init__(self):
@@ -94,7 +95,7 @@ def call_llm(prompt, max_new_tokens=900, temperature: float = 0.7):
         print(f"Error calling LLM: {str(e)}")
         return None
 
-def read_educational_pdf(grade_level, subject, base_path="educational_resources"):
+def read_txt(grade_level, subject, base_path="educational_resources"):
     """
     Generate path from grade level and subject, then read and return PDF content.
     
@@ -112,25 +113,35 @@ def read_educational_pdf(grade_level, subject, base_path="educational_resources"
         subject = subject.lower().strip()
         
         # Generate file path
-        file_name = f"{subject}.pdf"
+        file_name = f"{subject}.txt"
         file_path = os.path.join(base_path, grade_level, file_name)
         
         # Check if file exists
         if not os.path.exists(file_path):
-            return f"PDF file not found at: {file_path}"
+            return f"TXT file not found at: {file_path}"
+        grade_number = int(grade_level.replace("grade", ''))
+        with open(file_path, 'r') as fp:
+            topics = [f"الصف {grade_number} الصف {a.stirp()}" for a in fp.readlines()]
         
-        # Read PDF and extract text
-        pdf_reader = PdfReader(file_path)
-        text_content = []
-        
-        for page in pdf_reader.pages:
-            text_content.append(page.extract_text())
-        
-        return "\n".join(text_content)
+        return topics
     
     except Exception as e:
-        return f"Error processing PDF: {str(e)}"
+        return f"Error processing txt: {str(e)}"
 
+async def search_topic_async(search_engine, topic):
+    # Perform the search asynchronously using AsyncDDGS
+    results = await search_engine.atext(topic, max_results=2, region='xa-ar')
+    return f"{topic} " + " ".join([res['body'] + " " for res in results])
+
+
+async def search_web(topics):
+    output = list()
+    search_engine = AsyncDDGS()
+    tasks = [search_topic_async(search_engine, topic) for topic in topics]
+    results = await asyncio.gather(*tasks)
+    output.extend(results)
+    return output
+ 
 def get_sections(data: dict) -> list[dict]:
     level = data['Level']
     if data['Disability'].lower() == 'no':
@@ -140,10 +151,11 @@ def get_sections(data: dict) -> list[dict]:
     subject = data['Subject']
     num_of_sections = data['NumOfSections']
     # details = data['Remark']
-    details = read_educational_pdf(level, subject)
+    topics = read_txt(level, subject)
+    loop = asyncio.get_event_loop()
+    details = loop.run_until_complete(search_web(topics))
     
-    
-    prompt = f"<s> [INST] {details}بأستخدام المحتوى الذي يسبق قم بإنشاء {num_of_sections} أقسام تعليمية مع شرح تفصيلي لكل قسم متعلقة بموضوع {subject} لطلاب {level}{disability_prompt}.[/INST]"
+    prompt = f"<s> [INST] {'\n'.join(details)}بأستخدام الدروس الذي سبقت قم بإنشاء {num_of_sections} أقسام تعليمية مع شرح تفصيلي لكل قسم متعلقة بموضوع {subject} لطلاب {level}{disability_prompt}.[/INST]"
     resp = call_llm(prompt, temperature = 0.2)
     
     
@@ -209,5 +221,5 @@ def get_questions(title: str, description: str, num_questions: int = 5):
         }
     arabic_processor = ArabicTextToDict()
 
-    output_dict = arabic_processor(text, example_dict, f"The number of items inside the data list should be {num_questions}, and the <answer_index> should be either 0,1,2,3 depending on which answer is the correct answer")
+    output_dict = arabic_processor(text, example_dict, f"The number of items inside the data list should be {num_questions}, and the <answer_index> should be either 0,1,2,3 depending on which answer is the correct answer, Also make sure all of the options are not empty in case any are empty you can make up one")
     return output_dict['data']

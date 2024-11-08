@@ -145,6 +145,115 @@ def create_classroom_and_studyplan(request):
         "classroom_id": classroom.id
     })
 
+@swagger_auto_schema(
+    method='post',
+    request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        properties={
+            'classroom_id': openapi.Schema(type=openapi.TYPE_INTEGER, description="ID of the classroom to which the section will be added", example=1),
+            'section_title': openapi.Schema(type=openapi.TYPE_STRING, description="Title of the new section", example="Introduction to Algebra"),
+            'section_description': openapi.Schema(type=openapi.TYPE_STRING, description="Description of the new section", example="This section covers basic algebra concepts."),
+        },
+        required=['classroom_id', 'section_title', 'section_description']
+    ),
+    responses={
+        status.HTTP_201_CREATED: openapi.Response(
+            description="Section added successfully",
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'message': openapi.Schema(type=openapi.TYPE_STRING, description="Success message", example="Section added successfully"),
+                    'section_id': openapi.Schema(type=openapi.TYPE_INTEGER, description="ID of the newly created section", example=1)
+                }
+            )
+        ),
+        status.HTTP_404_NOT_FOUND: openapi.Response(
+            description="Classroom not found",
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'message': openapi.Schema(type=openapi.TYPE_STRING, description="Error message", example="Classroom not found.")
+                }
+            )
+        )
+    }
+)
+@api_view(['POST'])
+def add_section_to_classroom(request):
+    classroom_id = request.data.get('classroom_id')
+    section_title = request.data.get('section_title')
+    section_description = request.data.get('section_description')
+
+    # Check if the classroom exists
+    try:
+        classroom = Classroom.objects.get(id=classroom_id)
+    except Classroom.DoesNotExist:
+        return Response({"message": "Classroom not found."}, status=status.HTTP_404_NOT_FOUND)
+
+    # Find the next available index for the new section
+    next_index = Section.objects.filter(classroom=classroom).count() + 1
+
+    # Create the new section
+    new_section = Section.objects.create(
+        classroom=classroom,
+        index=next_index,
+        title=section_title,
+        description=section_description
+    )
+
+    return Response({
+        "message": "Section added successfully",
+        "section_id": new_section.id
+    }, status=status.HTTP_201_CREATED)
+
+@swagger_auto_schema(
+    method='delete',
+    responses={
+        status.HTTP_204_NO_CONTENT: openapi.Response(
+            description="Section deleted successfully",
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'message': openapi.Schema(type=openapi.TYPE_STRING, description="Success message", example="Section deleted successfully"),
+                    'classroom_id': openapi.Schema(type=openapi.TYPE_INTEGER, description="ID of the classroom from which the section was deleted", example=1)
+                }
+            )
+        ),
+        status.HTTP_404_NOT_FOUND: openapi.Response(
+            description="Section not found",
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'message': openapi.Schema(type=openapi.TYPE_STRING, description="Error message", example="Section not found.")
+                }
+            )
+        )
+    }
+)
+@api_view(['DELETE'])
+def delete_section_from_classroom(request, section_id):
+    # Check if the section exists
+    try:
+        section = Section.objects.get(id=section_id)
+    except Section.DoesNotExist:
+        return Response({"message": "Section not found."}, status=status.HTTP_404_NOT_FOUND)
+
+    # Get the classroom associated with this section
+    classroom = section.classroom
+
+    # Delete the section
+    section.delete()
+
+    # Optionally, reindex sections after deletion if you want the indexes to be contiguous
+    sections = Section.objects.filter(classroom=classroom).order_by('index')
+    for i, section in enumerate(sections, start=1):
+        section.index = i
+        section.save()
+
+    return Response({
+        "message": "Section deleted successfully",
+        "classroom_id": classroom.id
+    }, status=status.HTTP_204_NO_CONTENT)
 
 
 @swagger_auto_schema(
@@ -235,13 +344,14 @@ def get_section_data(request, section_id):
     section = get_object_or_404(Section, id=section_id)
     has_quiz = QuizAssignment.objects.filter(section=section, type='Quiz').exists()
     has_assignment = QuizAssignment.objects.filter(section=section, type='Assignment').exists()
-
+    students_count = section.get_student_count()
     return Response({
         "SectionId": section.id,
         "SectionName": section.title,
         "HasQuiz": has_quiz,
         "HasAssignment": has_assignment,
-        "ClassRoomId": section.classroom.pk
+        "ClassRoomId": section.classroom.pk,
+        "StudentCount": students_count
     })
 
 

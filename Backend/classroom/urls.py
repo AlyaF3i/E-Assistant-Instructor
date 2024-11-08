@@ -37,5 +37,10 @@ urlpatterns = [
     # Student-related URLs
     path('add-student/', views.add_student, name='add_student'),  # Added endpoint for adding students
     path('classroom-student/<int:classroom_id>/', views.get_classroom_student, name='get_classroom_student'),
+    # URL for adding a section to a classroom
+    path('add_section/', views.add_section_to_classroom, name='add_section'),
+
+    # URL for deleting a section from a classroom
+    path('delete_section/<int:section_id>/', views.delete_section_from_classroom, name='delete_section'),
 
 ]

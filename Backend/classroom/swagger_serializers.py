@@ -192,7 +192,8 @@ get_section_data_response_schema = openapi.Schema(
         'SectionName': openapi.Schema(type=openapi.TYPE_STRING, description="Name of the section", example="Mathematics"),
         'HasQuiz': openapi.Schema(type=openapi.TYPE_BOOLEAN, description="Indicates if a quiz exists for this section", example=True),
         'HasAssignment': openapi.Schema(type=openapi.TYPE_BOOLEAN, description="Indicates if an assignment exists for this section", example=False),
-        'ClassRoomId': openapi.Schema(type=openapi.TYPE_INTEGER, description="ID of the associated classroom", example=2)
+        'ClassRoomId': openapi.Schema(type=openapi.TYPE_INTEGER, description="ID of the associated classroom", example=2),
+        'StudentCount': openapi.Schema(type=openapi.TYPE_INTEGER, description="Count of Student In a Specific classroom", example=2)
     }
 )
 
