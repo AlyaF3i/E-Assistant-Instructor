@@ -6,7 +6,9 @@
   flex-direction: column;
   align-items: center;
 }
-
+.shape-text {
+  font-size: x-large;
+}
 /* Title */
 .myclasses-title {
   font-size: 32px;

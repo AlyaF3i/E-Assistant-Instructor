@@ -22,16 +22,14 @@ const ClassDetails = () => {
 
   const [studentEmail, setStudentEmail] = useState("");
   const [studentName, setStudentName] = useState("");
-
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
   const [showStudents, setShowStudents] = useState(true); // State to show/hide students
   const [isFetched, setIsFetched] = useState(false); // New state variable
 
   const handleAddStudent = async () => {
     setErrorMessage("");
-    setSuccessMessage("");
-    console.log(studentEmail);
 
     if (!validateEmail(studentEmail)) {
       setErrorMessage("Invalid email format");
@@ -53,7 +51,6 @@ const ClassDetails = () => {
       if (response.ok) {
         setStudentName("");
         setStudentEmail("");
-        setSuccessMessage("Student added successfully!");
         setIsFetched(true); // Set to true to trigger a re-fetch
       } else {
         const errorData = await response.json();
@@ -66,16 +63,47 @@ const ClassDetails = () => {
       );
     }
   };
+  const handleAddSection = async (event) => {
+    event.preventDefault();
 
+    // Prepare data to send
+    const data = {
+      classId: classId,
+      title,
+      description,
+    };
+
+    try {
+      // Replace 'YOUR_API_URL' with the actual endpoint
+      const response = await fetch(`${apiUrl}api/add-student/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        console.log("Data submitted successfully");
+        // Optionally reset form fields
+        setTitle("");
+        setDescription("");
+        setIsFetched(true);
+      } else {
+        console.error("Failed to submit data");
+      }
+    } catch (error) {
+      console.error("Error submitting data:", error);
+    }
+  };
   const validateEmail = (email) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(email);
   };
 
-  const removeStudent = (email) => {};
-
   useEffect(() => {
     fetchClassDetails();
+    setIsFetched(false);
   }, [isFetched]);
 
   const fetchClassDetails = async () => {
@@ -183,12 +211,53 @@ const ClassDetails = () => {
             {errorMessage}
           </p>
         )}
-        {successMessage && (
-          <p id="success-message" className="success-message">
-            {successMessage}
-          </p>
-        )}
-
+        <div className="sections-container">
+          <div className="section-card2">
+            <h3
+              style={{
+                paddingBottom: "20px",
+                color: "#ff7a00",
+                fontSize: "18px",
+                textAlign: "center",
+              }}>
+              {t("add section manually")}
+            </h3>
+            {/* Input form */}
+            <form onSubmit={handleAddSection}>
+              <div>
+                <label>
+                  {t("Title")}: &nbsp;
+                  <input
+                    style={{ marginBottom: "20px" }}
+                    type="text"
+                    value={title}
+                    placeholder={t("enter the section title")}
+                    className="section-input"
+                    required
+                    onChange={(e) => setTitle(e.target.value)}
+                  />
+                </label>
+              </div>
+              <div>
+                <label>
+                  {t("Description")}: &nbsp;
+                  <textarea
+                    required
+                    placeholder={t("enter the section description")}
+                    value={description}
+                    className="section-input"
+                    onChange={(e) => setDescription(e.target.value)}
+                  />
+                </label>
+              </div>
+              <div className="button-container">
+                <button className="classdetails-add-button" type="submit">
+                  {t("Submit")}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
         <h4 className="classdetails-sections-title">{t("Sections")}</h4>
         <div className="sections-container">
           {classData.sections.length > 0 ? (

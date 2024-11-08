@@ -186,6 +186,7 @@ const SectionDetails = () => {
         const result = await response.json();
         console.log("Quiz created successfully", result);
         setLoading2(false);
+        window.location.reload();
       } else {
         const errorData = await response.json();
         console.error("Error creating quiz:", errorData);
@@ -489,17 +490,20 @@ const SectionDetails = () => {
 
           {selectedOption === "quiz" ? (
             <div>
-              <div className="section-card" style={{ marginTop: "20px" }}>
-                <ResponsiveContainer width="100%" height={300}>
-                  <BarChart data={marksData?.StudentsQuizMark}>
-                    <XAxis dataKey="email" />
-                    <YAxis />
-                    <Tooltip />
-                    <Legend />
-                    <Bar dataKey="mark" fill="#82ca9d" />
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
+              {marksData?.StudentsQuizMark.length !== 0 && (
+                <div className="section-card" style={{ marginTop: "20px" }}>
+                  <ResponsiveContainer width="100%" height={300}>
+                    <BarChart data={marksData?.StudentsQuizMark}>
+                      <XAxis dataKey="email" />
+                      <YAxis />
+                      <Tooltip />
+                      <Legend />
+                      <Bar dataKey="mark" fill="#82ca9d" />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              )}
+
               <div className="section-card" style={{ marginTop: "20px" }}>
                 <h3>{t("Submission Chart")}</h3>
 
@@ -584,18 +588,20 @@ const SectionDetails = () => {
             </div>
           ) : selectedOption === "assignment" ? (
             <div>
-              <div className="section-card" style={{ marginTop: "20px" }}>
-                <h3>{t("Marks Chart")}</h3>
-                <ResponsiveContainer width="100%" height={300}>
-                  <BarChart data={marksData2?.StudentsQuizMark}>
-                    <XAxis dataKey="email" />
-                    <YAxis />
-                    <Tooltip />
-                    <Legend />
-                    <Bar dataKey="mark" fill="#82ca9d" />
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
+              {marksData2.StudentsQuizMark.length !== 0 && (
+                <div className="section-card" style={{ marginTop: "20px" }}>
+                  <h3>{t("Marks Chart")}</h3>
+                  <ResponsiveContainer width="100%" height={300}>
+                    <BarChart data={marksData2?.StudentsQuizMark}>
+                      <XAxis dataKey="email" />
+                      <YAxis />
+                      <Tooltip />
+                      <Legend />
+                      <Bar dataKey="mark" fill="#82ca9d" />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              )}
               <div className="section-card" style={{ marginTop: "20px" }}>
                 <h3>{t("Submission Chart")}</h3>
 
