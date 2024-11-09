@@ -20,6 +20,7 @@ from arabic_reshaper import reshape
 from bidi.algorithm import get_display
 from arabic_reshaper import reshape
 import io
+import time
 from uuid import uuid4
 from django.core.mail import send_mail
 from drf_yasg.utils import swagger_auto_schema
@@ -48,6 +49,9 @@ from .swagger_serializers import (
 )
 from drf_yasg import openapi
 
+import logging
+logger = logging.getLogger('django')
+
 
 EXAM_URL = 'http://localhost:3000/quiz/'
 
@@ -67,6 +71,7 @@ def register(request):
 def login(request):
     data = request.data
     user = authenticate(username=data['username'], password=data['password'])
+    logger.info("User has logged in")
     if user is not None:
         # Return a token (JWT or session token) upon successful login
         return Response({"token": "your_generated_token_here"})
@@ -119,8 +124,10 @@ def create_classroom_and_studyplan(request):
         num_of_sections = request.data['NumOfSections'],
         teacher=teacher
     )
+    logger.info(f"Generating Sections by using Allam for the following data {request.data}")
+    start = time.time()
     sections = get_sections(request.data)
-
+    logger.info(f"Generating Sections has finished and took {time.time() - start}")
     for index, section in enumerate(sections, 1):
         title = section['Topic']
         description = section['Description']

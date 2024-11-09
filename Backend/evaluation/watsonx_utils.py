@@ -6,7 +6,9 @@ import re
 from langchain_community.chat_models import ChatOllama
 from langchain.prompts import PromptTemplate
 from langchain_core.output_parsers import JsonOutputParser
-from PyPDF2 import PdfReader
+from duckduckgo_search import DDGS
+from concurrent.futures import ThreadPoolExecutor
+import asyncio
 
 class ArabicTextToDict:
     def __init__(self):
@@ -94,26 +96,7 @@ def call_llm(prompt, max_new_tokens=900, temperature: float = 0.7):
         print(f"Error calling LLM: {str(e)}")
         return None
 
-def section_line_to_dict(line):
-    pattern = r"\d*\.\s*\*\*(.*?)\*\*: (.+)"
-    match = re.search(pattern, line)
-    if match:
-        topic = match.group(1)
-        description = match.group(2)
-        return {
-            "Topic": topic,
-            "Description": description
-        }
-
-def get_first_index(lines, prefix = '1.'):
-    i = 0
-    while i < len(lines):
-        if lines[i].startswith(prefix):
-            return i
-        i += 1
-    return -1
-
-def read_educational_pdf(grade_level, subject, base_path="educational_resources"):
+def read_txt(grade_level, subject, base_path="educational_resources"):
     """
     Generate path from grade level and subject, then read and return PDF content.
     
@@ -131,26 +114,59 @@ def read_educational_pdf(grade_level, subject, base_path="educational_resources"
         subject = subject.lower().strip()
         
         # Generate file path
-        file_name = f"{subject}.pdf"
+        file_name = f"{subject}.txt"
         file_path = os.path.join(base_path, grade_level, file_name)
         
         # Check if file exists
         if not os.path.exists(file_path):
-            return f"PDF file not found at: {file_path}"
+            return f"TXT file not found at: {file_path}"
+        grade_number = int(grade_level.replace("grade", ''))
+        with open(file_path, 'r') as fp:
+            topics = [f"الصف {grade_number} الصف {a.strip()}" for a in fp.readlines()]
         
-        # Read PDF and extract text
-        pdf_reader = PdfReader(file_path)
-        text_content = []
-        
-        for page in pdf_reader.pages:
-            text_content.append(page.extract_text())
-        
-        return "\n".join(text_content)
+        return topics
     
     except Exception as e:
-        return f"Error processing PDF: {str(e)}"
+        return f"Error processing txt: {str(e)}"
 
-def get_sections(data: dict) -> list[dict]:
+def search_topic(search_engine, topic, num_of_results = 2):
+    # Perform the search synchronously using DDGS
+    results = search_engine.text(topic, max_results=num_of_results, region='xa-ar')
+    return f"{topic} " + " ".join([res['body'] + " " for res in results])
+
+# def search_web(topics):
+#     output = []
+#     search_engine = DDGS()
+#     with ThreadPoolExecutor() as executor:
+#         results = executor.map(lambda topic: search_topic(search_engine, topic), topics)
+#     output.extend(list(results))
+#     return output
+ 
+# def search_web(topics):
+#     output = []
+#     search_engine = DDGS()
+#     list_of_params = [(search_engine, topic) for topic in topics]
+#     with ThreadPoolExecutor(max_workers = 5) as executor:
+#         results = executor.map(lambda params: search_topic(*params), list_of_params)
+#     output.extend(list(results))
+#     return output
+ 
+def search_web(topics, first_n_topics = -1) -> str:
+    if first_n_topics != -1:
+        topics = topics[:first_n_topics]
+    output = []
+    search_engine = DDGS()
+    # list_of_params = [(search_engine, topic) for topic in topics]
+    l = len(topics)
+    # full_text = " + ".join(topics)
+    # output = search_topic(search_engine, full_text, l)
+    # with ThreadPoolExecutor(max_workers = 5) as executor:
+    #     results = executor.map(lambda params: search_topic(*params), list_of_params)
+    # output.extend(list(results))
+    # return output
+    return ", ".join(topics)
+ 
+def get_sections(data: dict, base_path = "educational_resources") -> list:
     level = data['Level']
     if data['Disability'].lower() == 'no':
         disability_prompt = ''
@@ -158,14 +174,13 @@ def get_sections(data: dict) -> list[dict]:
         disability_prompt = f" الذين لديهم صعوبة بالتعلم"
     subject = data['Subject']
     num_of_sections = data['NumOfSections']
-    # details = data['Remark']
-    details = read_educational_pdf(level, subject)
-    
-    
-    prompt = f"<s> [INST] {details}بأستخدام المحتوى الذي يسبق قم بإنشاء {num_of_sections} أقسام تعليمية مع شرح تفصيلي لكل قسم متعلقة بموضوع {subject} لطلاب {level}{disability_prompt}.[/INST]"
-    resp = call_llm(prompt, temperature = 0.2)
-    
-    
+    topics = read_txt(level, subject, base_path)
+    assert isinstance(topics, list), "There was an error while reading the txt file"
+    details = search_web(topics)
+    content = details #'\n'.join(details)
+    prompt = f"<s> [INST] {content}بأستخدام الدروس الذي سبقت قم بإنشاء {num_of_sections} أقسام تعليمية مع شرح تفصيلي لكل قسم متعلقة بموضوع {subject} لطلاب {level}{disability_prompt}.[/INST]"
+    resp = call_llm(prompt, temperature=0.2)
+
     example_dict = {
             "data" : [
                 {
@@ -228,31 +243,5 @@ def get_questions(title: str, description: str, num_questions: int = 5):
         }
     arabic_processor = ArabicTextToDict()
 
-    output_dict = arabic_processor(text, example_dict, f"The number of items inside the data list should be {num_questions}, and the <answer_index> should be either 0,1,2,3 depending on which answer is the correct answer")
+    output_dict = arabic_processor(text, example_dict, f"The number of items inside the data list should be {num_questions}, and the <answer_index> should be either 0,1,2,3 depending on which answer is the correct answer, Also make sure all of the options are not empty in case any are empty you can make up one")
     return output_dict['data']
-    
-    # init_question_pattern = re.compile('سؤال\s+\d+:', flags = re.MULTILINE)
-    # indices = [z.span() for z in re.finditer(init_question_pattern, text.strip())]
-    # all_questions = list()
-    # for i, span in enumerate(indices):
-    #     start, end = span
-    #     nstart = len(text) if i + 1 == len(indices) else indices[i + 1][0]
-    #     # q_number = re.findall('\d+', text[start:end])[0]
-    #     lines = [l.strip() for l in text[end + 1: nstart].strip().split('\n') if l]
-    #     question = lines[0]
-    #     option_1 = lines[1].replace("أ.", "").strip()
-    #     option_2 = lines[2].replace("ب.", "").strip()
-    #     option_3 = lines[3].replace("ج.", "").strip()
-    #     option_4 = lines[4].replace("د.", "").strip()
-    #     answer = lines[5][lines[5].index(":"):lines[5].index(".")].strip()
-    #     answer_index = "أبجد".index(answer)
-    #     output_dict = {
-    #         "Q" : question,
-    #         "A1" : option_1,
-    #         "A2" : option_2,
-    #         "A3" : option_3,
-    #         "A4" : option_4,
-    #         "Correct" : answer_index
-    #     }
-    #     all_questions.append(output_dict)
-    # return all_questions

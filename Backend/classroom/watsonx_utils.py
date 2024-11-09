@@ -6,7 +6,8 @@ import re
 from langchain_community.chat_models import ChatOllama
 from langchain.prompts import PromptTemplate
 from langchain_core.output_parsers import JsonOutputParser
-from duckduckgo_search import DDGS, AsyncDDGS
+from duckduckgo_search import DDGS
+from concurrent.futures import ThreadPoolExecutor
 import asyncio
 
 class ArabicTextToDict:
@@ -121,28 +122,51 @@ def read_txt(grade_level, subject, base_path="educational_resources"):
             return f"TXT file not found at: {file_path}"
         grade_number = int(grade_level.replace("grade", ''))
         with open(file_path, 'r') as fp:
-            topics = [f"الصف {grade_number} الصف {a.stirp()}" for a in fp.readlines()]
+            topics = [f"الصف {grade_number} الصف {a.strip()}" for a in fp.readlines()]
         
         return topics
     
     except Exception as e:
         return f"Error processing txt: {str(e)}"
 
-async def search_topic_async(search_engine, topic):
-    # Perform the search asynchronously using AsyncDDGS
-    results = await search_engine.atext(topic, max_results=2, region='xa-ar')
+def search_topic(search_engine, topic, num_of_results = 2):
+    # Perform the search synchronously using DDGS
+    results = search_engine.text(topic, max_results=num_of_results, region='xa-ar')
     return f"{topic} " + " ".join([res['body'] + " " for res in results])
 
-
-async def search_web(topics):
-    output = list()
-    search_engine = AsyncDDGS()
-    tasks = [search_topic_async(search_engine, topic) for topic in topics]
-    results = await asyncio.gather(*tasks)
-    output.extend(results)
-    return output
+# def search_web(topics):
+#     output = []
+#     search_engine = DDGS()
+#     with ThreadPoolExecutor() as executor:
+#         results = executor.map(lambda topic: search_topic(search_engine, topic), topics)
+#     output.extend(list(results))
+#     return output
  
-def get_sections(data: dict) -> list[dict]:
+# def search_web(topics):
+#     output = []
+#     search_engine = DDGS()
+#     list_of_params = [(search_engine, topic) for topic in topics]
+#     with ThreadPoolExecutor(max_workers = 5) as executor:
+#         results = executor.map(lambda params: search_topic(*params), list_of_params)
+#     output.extend(list(results))
+#     return output
+ 
+def search_web(topics, first_n_topics = -1) -> str:
+    if first_n_topics != -1:
+        topics = topics[:first_n_topics]
+    output = []
+    search_engine = DDGS()
+    # list_of_params = [(search_engine, topic) for topic in topics]
+    l = len(topics)
+    # full_text = " + ".join(topics)
+    # output = search_topic(search_engine, full_text, l)
+    # with ThreadPoolExecutor(max_workers = 5) as executor:
+    #     results = executor.map(lambda params: search_topic(*params), list_of_params)
+    # output.extend(list(results))
+    # return output
+    return ", ".join(topics)
+ 
+def get_sections(data: dict, base_path = "educational_resources") -> list:
     level = data['Level']
     if data['Disability'].lower() == 'no':
         disability_prompt = ''
@@ -150,15 +174,13 @@ def get_sections(data: dict) -> list[dict]:
         disability_prompt = f" الذين لديهم صعوبة بالتعلم"
     subject = data['Subject']
     num_of_sections = data['NumOfSections']
-    # details = data['Remark']
-    topics = read_txt(level, subject)
-    loop = asyncio.get_event_loop()
-    details = loop.run_until_complete(search_web(topics))
-    content = '\n'.join(details)
+    topics = read_txt(level, subject, base_path)
+    assert isinstance(topics, list), "There was an error while reading the txt file"
+    details = search_web(topics)
+    content = details #'\n'.join(details)
     prompt = f"<s> [INST] {content}بأستخدام الدروس الذي سبقت قم بإنشاء {num_of_sections} أقسام تعليمية مع شرح تفصيلي لكل قسم متعلقة بموضوع {subject} لطلاب {level}{disability_prompt}.[/INST]"
-    resp = call_llm(prompt, temperature = 0.2)
-    
-    
+    resp = call_llm(prompt, temperature=0.2)
+
     example_dict = {
             "data" : [
                 {
