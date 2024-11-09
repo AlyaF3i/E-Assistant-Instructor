@@ -15,6 +15,24 @@ const CreateClassroom = () => {
     NumOfSections: "",
     StudentEmail: [],
   });
+  const subjectsByGrade = {
+    "Grade 1": ["arabic", "math", "science"],
+    "Grade 2": ["arabic"],
+    "Grade 3": ["arabic"],
+    "Grade 4": ["arabic"],
+    "Grade 5": ["arabic"],
+    "Grade 6": ["arabic"],
+    "Grade 7": ["arabic"],
+    "Grade 8": ["arabic"],
+    "Grade 9": ["arabic"],
+    "Grade 10": ["arabic"],
+    "Grade 11": ["arabic"],
+    "Grade 12": ["arabic"],
+  };
+
+  const filteredSubjects = formData.Level
+    ? subjectsByGrade[formData.Level] || []
+    : [];
   const apiUrl = process.env.REACT_APP_API_URL;
   const [isStudentsSectionVisible, setIsStudentsSectionVisible] =
     useState(false);
@@ -109,33 +127,6 @@ const CreateClassroom = () => {
         </div>
 
         <div className="createclassroom-input-wrapper">
-          <label className="createclassroom-label" htmlFor="Subject">
-            {t("subject")}
-          </label>
-          <select
-            id="Subject"
-            name="Subject"
-            className="createclassroom-select"
-            value={formData.Subject}
-            onChange={handleChange}
-            required>
-            <option value="">{t("selectOption")}</option>
-            <option value="Math">{t("math")}</option>
-            <option value="Science">{t("science")}</option>
-            <option value="English">{t("english")}</option>
-            <option value="Arabic">{t("arabic")}</option>
-            <option value="History">{t("history")}</option>
-            <option value="Geography">{t("geography")}</option>
-            <option value="Art">{t("art")}</option>
-            <option value="Physical Education">{t("physicalEducation")}</option>
-            <option value="Computer Science">{t("computerScience")}</option>
-            <option value="Biology">{t("biology")}</option>
-            <option value="Chemistry">{t("chemistry")}</option>
-            <option value="Physics">{t("physics")}</option>
-          </select>
-        </div>
-
-        <div className="createclassroom-input-wrapper">
           <label className="createclassroom-label" htmlFor="Level">
             {t("level")}
           </label>
@@ -147,9 +138,31 @@ const CreateClassroom = () => {
             onChange={handleChange}
             required>
             <option value="">{t("selectOption")}</option>
-            {Array.from({ length: 10 }, (_, i) => i + 3).map((grade) => (
-              <option key={grade} value={`Grade ${grade}`}>
-                {t(`grade${grade}`, { defaultValue: `Grade ${grade}` })}
+            {Object.keys(subjectsByGrade).map((grade) => (
+              <option key={grade} value={grade}>
+                {t(`${grade}`, { defaultValue: ` ${grade}` })}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="createclassroom-input-wrapper">
+          <label className="createclassroom-label" htmlFor="Subject">
+            {t("subject")}
+          </label>
+          <select
+            id="Subject"
+            name="Subject"
+            className="createclassroom-select"
+            value={formData.Subject}
+            onChange={handleChange}
+            required
+            disabled={!filteredSubjects.length} // Disable if no subjects available
+          >
+            <option value="">{t("selectOption")}</option>
+            {filteredSubjects.map((subject) => (
+              <option key={subject} value={subject}>
+                {t(subject, { defaultValue: subject })}
               </option>
             ))}
           </select>

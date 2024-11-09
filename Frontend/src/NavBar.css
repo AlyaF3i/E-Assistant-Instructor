@@ -1,6 +1,6 @@
 .navbar {
   background-color: white; /* White background */
-  border-bottom: 2px solid #ff8a00; /* Bottom border for effect */
+  border-bottom: 2px solid #7450d4; /* Bottom border for effect */
   padding: 10px 20px;
   display: flex;
   justify-content: space-between;
@@ -30,45 +30,63 @@
 .navbar-link {
   margin: 0 15px;
   text-decoration: none;
-  color: #36a2eb; /* Secondary color */
+  color: #7450d4; /* Secondary color */
   transition: color 0.3s;
 }
 
 .navbar-link:hover {
-  color: #ff8a00; /* Hover color */
+  color: #e47105; /* Hover color */
 }
 
 .navbar-button {
   background-color: transparent; /* Remove background color */
-  color: #257ac9; /* Text color matches original background color */
-  border: 2px dotted #257ac9; /* Dotted border with original color */
+  color: #271f43; /* Text color matches original background color */
+  border: 2px dotted #271f43; /* Dotted border with original color */
   border-radius: 5px;
   padding: 8px 12px;
   margin-left: 10px;
   cursor: pointer;
   transition: all 0.3s, color 0.3s; /* Transition on border color and text color */
 }
+.back-button {
+  background-color: transparent; /* Remove background color */
+  color: #271f43; /* Text color matches original background color */
+  border: 2px dotted #271f43; /* Dotted border with original color */
+  border-radius: 5px;
+  height: 40px;
+  width: 40px;
+  cursor: pointer;
+  transition: all 0.3s, color 0.3s; /* Transition on border color and text color */
+}
+.back-button:hover {
+  background-color: #271f43; /* Button hover color */
+  color: white; /* Text color matches original background color */
+}
 
 .navbar-button:hover {
-  background-color: #257ac9; /* Button hover color */
+  background-color: #271f43; /* Button hover color */
   color: white; /* Text color matches original background color */
 }
 
 .logout-button {
-  background-color: #ff8a00; /* Logout button color */
+  background-color: #7450d4; /* Logout button color */
   border: none;
   color: white;
 }
-
+/*
+#271f43
+#7450d4 
+#5a3ea5
+*/
 .logout-button:hover {
-  background-color: #e47105; /* Logout button hover color */
+  background-color: #271f43; /* Logout button hover color */
 }
 .menu-toggle {
   display: none; /* Hide by default */
   font-size: 24px;
   background: none;
   border: none;
-  color: #257ac9; /* Toggle button color */
+  color: #271f43; /* Toggle button color */
   cursor: pointer;
 }
 
@@ -84,7 +102,7 @@
     right: 0;
     background-color: white; /* White background for dropdown */
     width: 100%;
-    border: 1px solid #ff8a00; /* Border for dropdown */
+    border: 1px solid #7450d4; /* Border for dropdown */
     display: none; /* Hidden by default */
     z-index: 999;
   }

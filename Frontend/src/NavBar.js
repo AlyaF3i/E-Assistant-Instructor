@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next"; // Import the translation hook
-
+import { MdArrowBackIosNew } from "react-icons/md";
 import "./NavBar.css";
 import SwitchToggle from "./SwitchToggle";
 //... other imports
@@ -44,8 +44,10 @@ const Navbar = () => {
           </button>
         </div>
         <div className="navbar-brand">
-          <button className="navbar-button" onClick={handleBack}>
-            {t("Back")}
+          <button className="back-button" onClick={handleBack}>
+            <MdArrowBackIosNew
+              style={{ fontSize: "x-large", marginTop: "5px" }}
+            />
           </button>
         </div>
         <button className="menu-toggle" onClick={toggleMenu}>

@@ -52,7 +52,7 @@
   content: "";
   width: 60px;
   height: 4px;
-  background-color: #ff8a00;
+  background-color: #7450d4;
   display: block;
   margin: 10px auto 0;
   border-radius: 2px;
@@ -88,14 +88,14 @@
 
 .createclassroom-input:focus,
 .createclassroom-select:focus {
-  border-color: #ff8a00;
+  border-color: #7450d4;
   background-color: #fff;
 }
 
 /* Button */
 .createclassroom-button {
   padding: 15px;
-  background-color: #36a2eb;
+  background-color: #7450d4;
   color: white;
   border: none;
   border-radius: 8px;
@@ -108,7 +108,7 @@
 }
 
 .createclassroom-button:not(:disabled):hover {
-  background-color: #257ac9;
+  background-color: #271f43;
 }
 .createclassroom-button:not(:disabled):active {
   transform: translateY(0); /* Resets lift effect on click */
@@ -117,7 +117,7 @@
 .createclassroom-students-title {
   font-size: 18px;
   font-weight: 600;
-  color: #ff8a00;
+  color: #7450d4;
   cursor: pointer;
   text-align: center;
 }
@@ -159,7 +159,7 @@
 }
 .createclassroom-button:disabled {
   cursor: not-allowed;
-  background-color: #257ac9;
+  background-color: #271f43;
   opacity: 0.6;
 }
 .spinner {

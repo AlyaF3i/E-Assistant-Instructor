@@ -25,7 +25,7 @@ const SwitchToggle = () => {
       />
       ع &nbsp;
       <label
-        style={{ background: language === "en" ? "#ff7a00" : "#257ac9" }}
+        style={{ background: language === "en" ? "#ff7a00" : "#271f43" }}
         className="react-switch-label"
         htmlFor={`react-switch-new`}>
         <span className={`react-switch-button`} />

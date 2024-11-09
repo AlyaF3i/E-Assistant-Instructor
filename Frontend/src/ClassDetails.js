@@ -3,6 +3,7 @@ import "./ClassDetails.css";
 import "./ClassDetails.css";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { MdDelete } from "react-icons/md";
 
 const ClassDetails = () => {
   const { classId } = useParams();
@@ -295,7 +296,7 @@ const ClassDetails = () => {
                         remove_section(section.SectionId); // Call the API function with section ID
                       }
                     }}>
-                    <p>{t("Remove")}</p>
+                    <MdDelete style={{ fontSize: "x-large" }} />
                   </button>
                 </div>
                 <h4>{section.Title}</h4>
