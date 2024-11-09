@@ -38,7 +38,7 @@
   content: "";
   width: 60px;
   height: 4px;
-  background-color: #ff8a00;
+  background-color: #7450d4;
   display: block;
   margin: 10px auto 0;
   border-radius: 2px;
@@ -67,7 +67,7 @@
 }
 
 .login-form-group-input:focus {
-  border-color: #ff8a00;
+  border-color: #7450d4;
   background-color: #fff;
 }
 
@@ -75,7 +75,7 @@
 .login-btn {
   width: 100%;
   padding: 12px;
-  background-color: #36a2eb;
+  background-color: #7450d4;
   color: white;
   border: none;
   border-radius: 5px;
@@ -86,7 +86,7 @@
 }
 
 .login-btn:hover {
-  background-color: #257ac9;
+  background-color: #271f43;
   transform: translateY(-3px);
 }
 
@@ -102,20 +102,20 @@
 }
 
 .login-footer a {
-  color: #36a2eb;
+  color: #7450d4;
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
 .login-footer a:hover {
-  color: #257ac9;
+  color: #271f43;
 }
 .docs-btn {
   position: fixed;
   bottom: 20px;
   right: 20px;
   padding: 10px 15px;
-  background-color: #36a2eb;
+  background-color: #7450d4;
   color: white;
   border: none;
   border-radius: 5px;
@@ -125,7 +125,7 @@
 }
 
 .docs-btn:hover {
-  background-color: #257ac9;
+  background-color: #271f43;
 }
 
 .docs-btn:active {

@@ -71,7 +71,7 @@
 
 /* Style for selected option */
 .option-item.selected {
-  background-color: #ff8a00; /* Highlight color for selected option */
+  background-color: #7450d4; /* Highlight color for selected option */
   color: white; /* Change text color for better contrast */
   font-weight: bold; /* Make the text bold */
 }
@@ -83,13 +83,13 @@
 .loading,
 .error {
   font-size: 18px;
-  color: #ff8a00; /* You can adjust this color as needed */
+  color: #7450d4; /* You can adjust this color as needed */
   text-align: center;
   margin-top: 20px;
 }
 .quiz-submit-button {
   padding: 15px;
-  background-color: #36a2eb;
+  background-color: #7450d4;
   color: white;
   border: none;
   border-radius: 8px;
@@ -102,12 +102,12 @@
 }
 .quiz-submit-button:disabled {
   cursor: not-allowed;
-  background-color: #257ac9;
+  background-color: #271f43;
   opacity: 0.6;
 }
 .quiz-submit-button:not(:disabled):hover {
   transform: scale(1.05);
-  background-color: #257ac9;
+  background-color: #271f43;
 }
 .quiz-submit-button:not(:disabled):active {
   transform: translateY(0); /* Resets lift effect on click */

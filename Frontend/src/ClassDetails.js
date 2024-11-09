@@ -3,6 +3,7 @@ import "./ClassDetails.css";
 import "./ClassDetails.css";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { MdDelete } from "react-icons/md";
 
 const ClassDetails = () => {
   const { classId } = useParams();
@@ -141,7 +142,9 @@ const ClassDetails = () => {
           setIsFetched(true);
         }
       })
+
       .catch((error) => console.error("Error deleting section:", error));
+    window.location.reload();
   }
 
   return (
@@ -193,33 +196,35 @@ const ClassDetails = () => {
                 <p>{t("No students enrolled")}</p>
               )}
             </div>
+            <div className="classdetails-add-student-form">
+              <h4 className="classdetails-sections-title">
+                {t("Add Student")}
+              </h4>
+
+              <input
+                type="text"
+                placeholder={t("Student Name")}
+                value={studentName}
+                required
+                onChange={(e) => setStudentName(e.target.value)}
+              />
+              <input
+                type="email"
+                placeholder={t("Student Email")}
+                required
+                value={studentEmail}
+                onChange={(e) => setStudentEmail(e.target.value)}
+              />
+              <button
+                className="classdetails-add-button"
+                onClick={handleAddStudent}>
+                {t("Add Student")}
+              </button>
+            </div>
           </>
         )}
 
         {/* Add New Student Form */}
-        <div className="classdetails-add-student-form">
-          <h4 className="classdetails-sections-title">{t("Add Student")}</h4>
-
-          <input
-            type="text"
-            placeholder={t("Student Name")}
-            value={studentName}
-            required
-            onChange={(e) => setStudentName(e.target.value)}
-          />
-          <input
-            type="email"
-            placeholder={t("Student Email")}
-            required
-            value={studentEmail}
-            onChange={(e) => setStudentEmail(e.target.value)}
-          />
-          <button
-            className="classdetails-add-button"
-            onClick={handleAddStudent}>
-            {t("Add Student")}
-          </button>
-        </div>
 
         {errorMessage && (
           <p id="error-message" className="error-message">
@@ -241,7 +246,6 @@ const ClassDetails = () => {
             <form onSubmit={handleAddSection}>
               <div>
                 <label>
-                  {t("Title")}: &nbsp;
                   <input
                     style={{ marginBottom: "20px" }}
                     type="text"
@@ -255,9 +259,9 @@ const ClassDetails = () => {
               </div>
               <div>
                 <label>
-                  {t("Description")}: &nbsp;
                   <textarea
                     required
+                    style={{ width: "100%" }}
                     placeholder={t("enter the section description")}
                     value={description}
                     className="section-input"
@@ -294,7 +298,7 @@ const ClassDetails = () => {
                         remove_section(section.SectionId); // Call the API function with section ID
                       }
                     }}>
-                    <p>{t("Remove")}</p>
+                    <MdDelete style={{ fontSize: "x-large" }} />
                   </button>
                 </div>
                 <h4>{section.Title}</h4>
