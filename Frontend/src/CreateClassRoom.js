@@ -128,7 +128,7 @@ const CreateClassroom = () => {
 
         <div className="createclassroom-input-wrapper">
           <label className="createclassroom-label" htmlFor="Level">
-            {t("level")}
+            {t("Grade")}
           </label>
           <select
             id="Level"

@@ -142,7 +142,9 @@ const ClassDetails = () => {
           setIsFetched(true);
         }
       })
+
       .catch((error) => console.error("Error deleting section:", error));
+    window.location.reload();
   }
 
   return (
